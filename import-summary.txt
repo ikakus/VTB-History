@@ -1,0 +1,88 @@
+ECLIPSE ANDROID PROJECT IMPORT SUMMARY
+======================================
+
+Risky Project Location:
+-----------------------
+The tools *should* handle project locations in any directory. However,
+due to bugs, placing projects in directories containing spaces in the
+path, or characters like ", ' and &, have had issues. We're working to
+eliminate these bugs, but to save yourself headaches you may want to
+move your project to a location where this is not a problem.
+C:\Users\404\AndroidStudioProjects\VTB Parser1
+                                      -       
+
+Ignored Files:
+--------------
+The following files were *not* copied into the new Gradle project; you
+should evaluate whether these are still needed in your project and if
+so manually move them:
+
+* .idea\
+* .idea\.name
+* .idea\compiler.xml
+* .idea\copyright\
+* .idea\copyright\profiles_settings.xml
+* .idea\encodings.xml
+* .idea\misc.xml
+* .idea\modules.xml
+* .idea\scopes\
+* .idea\scopes\scope_settings.xml
+* .idea\uiDesigner.xml
+* .idea\vcs.xml
+* .idea\workspace.xml
+* VTB Parser.iml
+* ant.properties
+* build.xml
+* out\
+* out\production\
+* out\production\VTB Parser\
+* out\production\VTB Parser\VTB Parser.apk
+* out\production\VTB Parser\VTB Parser.unaligned.apk
+* out\production\VTB Parser\com\
+* out\production\VTB Parser\com\ikakus\
+* out\production\VTB Parser\com\ikakus\VTB_Parser\
+* out\production\VTB Parser\com\ikakus\VTB_Parser\BuildConfig.class
+* out\production\VTB Parser\com\ikakus\VTB_Parser\Classes\
+* out\production\VTB Parser\com\ikakus\VTB_Parser\Classes\DatabaseHandler$SmsEntry.class
+* out\production\VTB Parser\com\ikakus\VTB_Parser\Classes\DatabaseHandler.class
+* out\production\VTB Parser\com\ikakus\VTB_Parser\Classes\SMSMessage.class
+* out\production\VTB Parser\com\ikakus\VTB_Parser\Classes\SMSMessageParser.class
+* out\production\VTB Parser\com\ikakus\VTB_Parser\Classes\SMSReader.class
+* out\production\VTB Parser\com\ikakus\VTB_Parser\Classes\SMSReceiver.class
+* out\production\VTB Parser\com\ikakus\VTB_Parser\Classes\TransactionDto.class
+* out\production\VTB Parser\com\ikakus\VTB_Parser\Interfaces\
+* out\production\VTB Parser\com\ikakus\VTB_Parser\Interfaces\SMSReceiverListener.class
+* out\production\VTB Parser\com\ikakus\VTB_Parser\MainActivity.class
+* out\production\VTB Parser\com\ikakus\VTB_Parser\R$attr.class
+* out\production\VTB Parser\com\ikakus\VTB_Parser\R$color.class
+* out\production\VTB Parser\com\ikakus\VTB_Parser\R$drawable.class
+* out\production\VTB Parser\com\ikakus\VTB_Parser\R$id.class
+* out\production\VTB Parser\com\ikakus\VTB_Parser\R$layout.class
+* out\production\VTB Parser\com\ikakus\VTB_Parser\R$string.class
+* out\production\VTB Parser\com\ikakus\VTB_Parser\R.class
+* proguard-project.txt
+
+Moved Files:
+------------
+Android Gradle projects use a different directory structure than ADT
+Eclipse projects. Here's how the projects were restructured:
+
+* AndroidManifest.xml => app\src\main\AndroidManifest.xml
+* assets\ => app\src\main\assets\
+* res\ => app\src\main\res\
+* src\ => app\src\main\java\
+
+Next Steps:
+-----------
+You can now build the project. The Gradle project needs network
+connectivity to download dependencies.
+
+Bugs:
+-----
+If for some reason your project does not build, and you determine that
+it is due to a bug or limitation of the Eclipse to Gradle importer,
+please file a bug at http://b.android.com with category
+Component-Tools.
+
+(This import summary is for your information only, and can be deleted
+after import once you are satisfied with the results.)
