@@ -2,7 +2,6 @@ package com.ikakus.VTB_Parser;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -10,18 +9,20 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 
-import com.ikakus.VTB_Parser.BroadcastReceivers.SMSReceiver;
-import com.ikakus.VTB_Parser.Classes.*;
+import com.ikakus.VTB_Parser.Classes.DatabaseHandler;
+import com.ikakus.VTB_Parser.Classes.SMSMessage;
+import com.ikakus.VTB_Parser.Classes.SMSParser;
+import com.ikakus.VTB_Parser.Classes.SMSReader;
+import com.ikakus.VTB_Parser.Classes.Transaction;
 import com.ikakus.VTB_Parser.Fragments.BalanceFragment;
 import com.ikakus.VTB_Parser.Fragments.HistoryFragment;
-import com.ikakus.VTB_Parser.Interfaces.SMSReceiverListener;
 
 import java.util.Collections;
 import java.util.List;
 
-public class MainActivity extends FragmentActivity implements SMSReceiverListener {
-      public static String VTB_SENDER = "VTB Bank";
-   // public static String VTB_SENDER = "+1";
+public class MainActivity extends FragmentActivity {
+    public static String VTB_SENDER = "VTB Bank";
+//    public static String VTB_SENDER = "+1";
 
     private MyPagerAdapter mAdapter;
     private ViewPager mViewPager;
@@ -38,13 +39,8 @@ public class MainActivity extends FragmentActivity implements SMSReceiverListene
 
         startService(new Intent(this, SmsReaderService.class));
         mViewPager = (ViewPager) findViewById(R.id.pager);
-
         mAdapter = new MyPagerAdapter(this.getSupportFragmentManager());
         mViewPager.setAdapter(mAdapter);
-
-        IntentFilter intentFilter = new IntentFilter("android.provider.Telephony.SMS_RECEIVED");
-        intentFilter.setPriority(999);
-        this.registerReceiver(new SMSReceiver(this), intentFilter);
 
         DatabaseHandler smsReaderDbHelper = new DatabaseHandler(this);
         List<SMSMessage> smsMessages = null;
@@ -90,24 +86,11 @@ public class MainActivity extends FragmentActivity implements SMSReceiverListene
         }
     }
 
-    @Override
-    public void onSmsReceived(String result) {
-        String sms = result;
-        if(sms.contains("TRANSACTION")) {
-            SMSMessage smsMessage = SMSParser.parseSmsToSmsMessage(sms);
-            Transaction transaction = SMSParser.parseSms(sms);
-            addSms(smsMessage, this);
-            //setBalance(transaction);
-        }
-    }
-
     public class MyPagerAdapter extends FragmentStatePagerAdapter {
 
         public MyPagerAdapter(FragmentManager fm) {
             super(fm);
         }
-
-
 
         @Override
         public Fragment getItem(int position) {
