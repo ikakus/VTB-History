@@ -5,6 +5,7 @@
     android:layout_height="fill_parent"
     android:background="@color/light_blue">
     <LinearLayout
+        android:id="@+id/layout_balance"
         android:layout_centerInParent="true"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -27,6 +28,16 @@
             android:scaleY="0.5"
             android:src="@drawable/gel_white"/>
     </LinearLayout>
+    <TextView
+        android:id="@+id/amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:layout_margin="@dimen/abc_action_bar_subtitle_top_margin_material"
+        android:textSize="30sp"
+        android:layout_below="@id/layout_balance"
+        android:text="-200.00"
+        android:textColor="@color/orange"/>
 
 </RelativeLayout>
 

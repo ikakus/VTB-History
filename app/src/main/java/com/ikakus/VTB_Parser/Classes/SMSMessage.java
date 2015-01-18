@@ -47,8 +47,6 @@ public class SMSMessage {
 
         if (v instanceof SMSMessage) {
             SMSMessage ptr = (SMSMessage) v;
-
-//     retVal = ptr.id.longValue() == this.id;
             retVal = ptr.mBody.equals(this.mBody);
         }
 

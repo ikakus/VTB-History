@@ -44,4 +44,5 @@ public class SmsReaderService extends Service implements SMSReceiverListener {
             addSms(smsMessage, this);
         }
     }
+
 }

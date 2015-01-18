@@ -4,29 +4,70 @@
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
+    <RelativeLayout
+        android:id="@+id/divider"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/orange"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/month"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="10dp"
+            android:text="test"
+            android:textColor="@color/white"
+            android:textSize="@dimen/abc_text_size_large_material"
+
+            />
+        <TextView
+            android:id="@+id/sum"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toLeftOf="@+id/lari"
+            android:padding="10dp"
+            android:text="test"
+            android:textColor="@color/white"
+            android:textSize="@dimen/abc_text_size_large_material" />
+
+        <ImageView
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:id="@+id/lari"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:src="@drawable/gel_white"/>
+    </RelativeLayout>
+
     <LinearLayout
-        android:padding="10dp"
-        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="10dp">
+
 
         <TextView
             android:id="@+id/date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white" />
+            android:text="test"
+            android:textColor="@color/white"
+            android:textSize="@dimen/abc_text_size_large_material" />
 
         <TextView
             android:id="@+id/balance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:text="test"
             android:textColor="@color/white" />
 
         <TextView
             android:id="@+id/amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/white" />
+            android:text="test"
+            android:textColor="@color/yellow" />
 
     </LinearLayout>
 </LinearLayout>

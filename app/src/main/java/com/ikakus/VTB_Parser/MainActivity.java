@@ -1,5 +1,6 @@
 package com.ikakus.VTB_Parser;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -27,6 +28,7 @@ public class MainActivity extends FragmentActivity {
     private MyPagerAdapter mAdapter;
     private ViewPager mViewPager;
     public static double mBalance;
+    public static double mLastAmount;
     public static List<Transaction> mTransactions;
 
     /**
@@ -62,6 +64,7 @@ public class MainActivity extends FragmentActivity {
         if (size > 0) {
             Transaction lastTransaction = transactions.get(size - 1);
             mBalance = lastTransaction.getBalance();
+            mLastAmount = lastTransaction.getAmount();
         }
     }
 
@@ -70,9 +73,9 @@ public class MainActivity extends FragmentActivity {
         smsReaderDbHelper.addSms(smsMessage);
     }
 
-    private void updateBase(Context context) {
-        DatabaseHandler smsReaderDbHelper = new DatabaseHandler(context);
-        SMSReader smsReader = new SMSReader(MainActivity.this);
+    private void updateBase(Activity activity) {
+        DatabaseHandler smsReaderDbHelper = new DatabaseHandler(activity);
+        SMSReader smsReader = new SMSReader(activity);
         List<SMSMessage> allSmsFromBase = smsReaderDbHelper.getAllSms();
         List<SMSMessage> allSms = smsReader.getSMSMessage();
         Collections.reverse(allSms);
@@ -80,7 +83,8 @@ public class MainActivity extends FragmentActivity {
         for (SMSMessage smsMessage : allSms) {
             if (smsMessage.getSender().equals(VTB_SENDER)) {
                 if (!allSmsFromBase.contains(smsMessage)) {
-                    addSms(smsMessage, context);
+                    addSms(smsMessage, activity);
+                    allSmsFromBase.add(smsMessage);
                 }
             }
         }

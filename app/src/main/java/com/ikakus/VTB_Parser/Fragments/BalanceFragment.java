@@ -1,6 +1,5 @@
 package com.ikakus.VTB_Parser.Fragments;
 
-import android.app.Activity;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -63,8 +62,11 @@ public class BalanceFragment extends Fragment {
         // Inflate the layout for this fragment
         View rootView = inflater.inflate(R.layout.fragment_balance, container, false);
 
-        setBalance(mBalance, rootView);
-        setBalance(Double.toString(MainActivity.mBalance),rootView);
+
+        setBalance(
+                Double.toString(MainActivity.mBalance),
+                Double.toString(MainActivity.mLastAmount),
+                rootView);
 
         return rootView;
     }
@@ -86,9 +88,11 @@ public class BalanceFragment extends Fragment {
         mListener = null;
     }
 
-    private void setBalance(String balance, View root) {
+    private void setBalance(String balance, String amount, View root) {
         TextView balanceView = (TextView) root.findViewById(R.id.balance);
+        TextView amountView = (TextView) root.findViewById(R.id.amount);
         balanceView.setText(balance);
+        amountView.setText("-" + amount);
     }
 
     /**
