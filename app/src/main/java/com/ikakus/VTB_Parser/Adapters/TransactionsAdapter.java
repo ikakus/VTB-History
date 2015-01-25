@@ -36,6 +36,14 @@ public class TransactionsAdapter extends ArrayAdapter<Transaction> {
 
     }
 
+    private static double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+
+        BigDecimal bd = new BigDecimal(value);
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
+    }
+
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -91,27 +99,29 @@ public class TransactionsAdapter extends ArrayAdapter<Transaction> {
         return rowView;
     }
 
-    private static double round(double value, int places) {
-        if (places < 0) throw new IllegalArgumentException();
-
-        BigDecimal bd = new BigDecimal(value);
-        bd = bd.setScale(places, RoundingMode.HALF_UP);
-        return bd.doubleValue();
-    }
     private double calculateSumForMonth(int position, ArrayList<Transaction> items) {
         double sum = 0;
         int count = 0;
 
-        while(items.get(position).getDateTime().getMonth() ==
-              items.get(position + count).getDateTime().getMonth()){
+        while (items.get(position).getDateTime().getMonth() ==
+                items.get(position + count).getDateTime().getMonth()) {
 
-            if( (position + count) < items.size()-1) {
+            if (items.size()-1 == position + count) {
+                sum += items.get(position + count).getAmount();
+                break;
+            }
+
+            if ((position + count) < items.size()) {
                 sum += items.get(position + count).getAmount();
                 count++;
-            }else{
+            } else {
+                break;
+            }
+
+            if (items.size() == 1) {
                 break;
             }
         }
-        return round(sum,2);
+        return round(sum, 2);
     }
 }

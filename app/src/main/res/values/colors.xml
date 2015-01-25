@@ -4,4 +4,6 @@
     <color name="white">#ffffff</color>
     <color name="yellow">#ffffce00</color>
     <color name="orange">#ffff9211</color>
+    <color name="line">#ffffff</color>
+    <color name="line_bg">#ffff9211</color>
 </resources>

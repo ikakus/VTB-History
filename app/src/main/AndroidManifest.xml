@@ -11,7 +11,7 @@
 
 
     <application
-        android:icon="@drawable/ic_launcher"
+        android:icon="@drawable/product_logo_bank"
         android:label="@string/app_name">
 
         <activity
@@ -29,6 +29,6 @@
             android:name=".SmsReaderService"
             android:enabled="true"
             android:label="@string/service_name"
-            android:process=".SmsReaderService"></service>
+            android:process=".SmsReaderService"/>
     </application>
 </manifest>

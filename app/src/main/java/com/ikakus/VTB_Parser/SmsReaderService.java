@@ -12,6 +12,8 @@ import com.ikakus.VTB_Parser.Classes.SMSMessage;
 import com.ikakus.VTB_Parser.Classes.SMSParser;
 import com.ikakus.VTB_Parser.Interfaces.SMSReceiverListener;
 
+import java.util.List;
+
 /**
  * Created by 404 on 07.01.2015.
  */
@@ -40,8 +42,14 @@ public class SmsReaderService extends Service implements SMSReceiverListener {
     @Override
     public void onSmsReceived(String result) {
         if (result.contains("TRANSACTION")) {
+            DatabaseHandler smsReaderDbHelper = new DatabaseHandler(this);
+            List<SMSMessage> allSmsFromBase = smsReaderDbHelper.getAllSms();
             SMSMessage smsMessage = SMSParser.parseSmsToSmsMessage(result);
-            addSms(smsMessage, this);
+            if (!allSmsFromBase.contains(smsMessage)) {
+                addSms(smsMessage, this);
+                allSmsFromBase.add(smsMessage);
+            }
+//            addSms(smsMessage, this);
         }
     }
 
