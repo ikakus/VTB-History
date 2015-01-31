@@ -41,16 +41,15 @@ public class SmsReaderService extends Service implements SMSReceiverListener {
 
     @Override
     public void onSmsReceived(String result) {
-        if (result.contains("TRANSACTION")) {
-            DatabaseHandler smsReaderDbHelper = new DatabaseHandler(this);
-            List<SMSMessage> allSmsFromBase = smsReaderDbHelper.getAllSms();
-            SMSMessage smsMessage = SMSParser.parseSmsToSmsMessage(result);
-            if (!allSmsFromBase.contains(smsMessage)) {
-                addSms(smsMessage, this);
-                allSmsFromBase.add(smsMessage);
-            }
-//            addSms(smsMessage, this);
+
+        DatabaseHandler smsReaderDbHelper = new DatabaseHandler(this);
+        List<SMSMessage> allSmsFromBase = smsReaderDbHelper.getAllSms();
+        SMSMessage smsMessage = SMSParser.parseSmsToSmsMessage(result);
+        if (!allSmsFromBase.contains(smsMessage)) {
+            addSms(smsMessage, this);
+            allSmsFromBase.add(smsMessage);
         }
+
     }
 
 }

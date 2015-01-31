@@ -29,6 +29,7 @@ public class MainActivity extends FragmentActivity {
     private ViewPager mViewPager;
     public static double mBalance;
     public static double mLastAmount;
+    public static boolean mIsIncome = false;
     public static List<Transaction> mTransactions;
 
     /**
@@ -65,6 +66,7 @@ public class MainActivity extends FragmentActivity {
             Transaction lastTransaction = transactions.get(size - 1);
             mBalance = lastTransaction.getBalance();
             mLastAmount = lastTransaction.getAmount();
+            mIsIncome = lastTransaction.isIncome();
         }
     }
 

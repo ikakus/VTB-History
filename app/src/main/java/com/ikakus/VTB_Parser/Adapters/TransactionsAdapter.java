@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -51,68 +52,126 @@ public class TransactionsAdapter extends ArrayAdapter<Transaction> {
         TextView textViewAmount = (TextView) rowView.findViewById(R.id.amount);
         TextView textViewBalance = (TextView) rowView.findViewById(R.id.balance);
         TextView textViewDate = (TextView) rowView.findViewById(R.id.date);
-        RelativeLayout linearLayout = (RelativeLayout) rowView.findViewById(R.id.divider);
-        TextView textViewMont = (TextView) rowView.findViewById(R.id.month);
-        TextView textViewSum = (TextView) rowView.findViewById(R.id.sum);
+
 
         if (position > 0) {
             Date datePrev = items.get(position - 1).getDateTime();
             Date dateCurr = items.get(position).getDateTime();
 
             if (dateCurr.getMonth() != datePrev.getMonth()) {
-                linearLayout.setVisibility(View.VISIBLE);
-                SimpleDateFormat month_date = new SimpleDateFormat("MMMMMMMMM");
-                String month_name = month_date.format(dateCurr);
-
-                double sum = calculateSumForMonth(position, items);
-
-                textViewMont.setText(month_name);
-                textViewSum.setText(Double.toString(sum));
+                setMonthData(position, rowView, dateCurr);
             }
         }
 
         if (position == 0) {
             Date dateCurr = items.get(position).getDateTime();
-            linearLayout.setVisibility(View.VISIBLE);
-            SimpleDateFormat month_date = new SimpleDateFormat("MMMMMMMMM");
-            String month_name = month_date.format(dateCurr);
-
-            double sum = calculateSumForMonth(position, items);
-
-            textViewMont.setText(month_name);
-            textViewSum.setText(Double.toString(sum));
+            setMonthData(position, rowView, dateCurr);
         }
 
         double amount = items.get(position).getAmount();
-        textViewAmount.setText(Double.toString(amount));
+        if (items.get(position).isIncome()) {
+            textViewAmount.setTextColor(context.getResources().getColor(R.color.green));
+            textViewAmount.setText("+" + Double.toString(amount));
+        } else {
+            textViewAmount.setText("-" + Double.toString(amount));
+        }
 
         double balance = items.get(position).getBalance();
         textViewBalance.setText(Double.toString(balance));
-
         DateFormat timeInstance = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.MEDIUM, Locale.ROOT);
-
         Date date = items.get(position).getDateTime();
         String formattedDate = timeInstance.format(date);
-
         textViewDate.setText(formattedDate);
 
         return rowView;
     }
 
-    private double calculateSumForMonth(int position, ArrayList<Transaction> items) {
+    private void setMonthData(int position, final View rowView, Date dateCurr) {
+
+        RelativeLayout dividerLayout = (RelativeLayout) rowView.findViewById(R.id.divider);
+        TextView textViewMonth = (TextView) rowView.findViewById(R.id.month);
+        TextView textViewSum = (TextView) rowView.findViewById(R.id.sum);
+        TextView textViewIn = (TextView) rowView.findViewById(R.id.in);
+        TextView textViewOut = (TextView) rowView.findViewById(R.id.out);
+        TextView textViewSumTotal = (TextView) rowView.findViewById(R.id.sum_total);
+        dividerLayout.setVisibility(View.VISIBLE);
+
+        dividerLayout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LinearLayout infoLayout = (LinearLayout) rowView.findViewById(R.id.info);
+                if(infoLayout.getVisibility() == View.VISIBLE) {
+                    infoLayout.setVisibility(View.GONE);
+                }else {
+                    infoLayout.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+        SimpleDateFormat month_date = new SimpleDateFormat("MMMMMMMMM");
+        String month_name = month_date.format(dateCurr);
+
+        double OutSum = calculateOutcomeSumForMonth(position, items);
+        double InSum = calculateIncomeSumForMonth(position, items);
+        double totalSum = round(InSum - OutSum, 2);
+
+        textViewIn.setText("+" + InSum);
+        textViewOut.setText("-" + OutSum);
+        textViewSumTotal.setText("=" + totalSum);
+
+        textViewMonth.setText(month_name);
+
+        textViewSum.setText(" -" + OutSum);
+    }
+
+    private double calculateOutcomeSumForMonth(int position, ArrayList<Transaction> items) {
         double sum = 0;
         int count = 0;
 
         while (items.get(position).getDateTime().getMonth() ==
                 items.get(position + count).getDateTime().getMonth()) {
 
-            if (items.size()-1 == position + count) {
-                sum += items.get(position + count).getAmount();
+            if (items.size() - 1 == position + count) {
+                if (!items.get(position + count).isIncome()) {
+                    sum += items.get(position + count).getAmount();
+                }
                 break;
             }
 
             if ((position + count) < items.size()) {
-                sum += items.get(position + count).getAmount();
+                if (!items.get(position + count).isIncome()) {
+                    sum += items.get(position + count).getAmount();
+                }
+                count++;
+            } else {
+                break;
+            }
+
+            if (items.size() == 1) {
+                break;
+            }
+        }
+        return round(sum, 2);
+
+    }
+
+    private double calculateIncomeSumForMonth(int position, ArrayList<Transaction> items) {
+        double sum = 0;
+        int count = 0;
+
+        while (items.get(position).getDateTime().getMonth() ==
+                items.get(position + count).getDateTime().getMonth()) {
+
+            if (items.size() - 1 == position + count) {
+                if (items.get(position + count).isIncome()) {
+                    sum += items.get(position + count).getAmount();
+                }
+                break;
+            }
+
+            if ((position + count) < items.size()) {
+                if (items.get(position + count).isIncome()) {
+                    sum += items.get(position + count).getAmount();
+                }
                 count++;
             } else {
                 break;

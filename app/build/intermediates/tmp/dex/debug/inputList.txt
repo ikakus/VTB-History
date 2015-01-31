@@ -1,1 +1,6 @@
 C:\Users\404\AndroidStudioProjects\VTB Parser1\app\build\intermediates\classes\debug
+C:\Users\404\AndroidStudioProjects\VTB Parser1\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-26220e5ec485e507171deb7199cf836407b0ddce.jar
+C:\Users\404\AndroidStudioProjects\VTB Parser1\app\build\intermediates\pre-dexed\debug\classes-9733044646b0fe44e67de764ac0a709066f0c33e.jar
+C:\Users\404\AndroidStudioProjects\VTB Parser1\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-73d47359cd27838f35f525e81942318a7cddc7c9.jar
+C:\Users\404\AndroidStudioProjects\VTB Parser1\app\build\intermediates\pre-dexed\debug\classes-790b9316a9499a5dd979d3ca5f3f69ecc66954a3.jar
+C:\Users\404\AndroidStudioProjects\VTB Parser1\app\build\intermediates\pre-dexed\debug\classes-d6d8a639f92ff19a7b362ee011d26630f85f6a70.jar

@@ -25,24 +25,13 @@ import java.util.Locale;
 
 
 public class BalanceFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
     private static final String ARG_BALANCE = "balance";
-    private final static int LINE_MIN = 0;
+    private static final int LINE_MIN = 0;
     private static final int STEP = 500;
     private static int LINE_MAX = 0;
-    private static float mCurrOverlapFactor;
-    private static int[] mCurrOverlapOrder;
-    private static float mOldOverlapFactor;
-    private static int[] mOldOverlapOrder;
+
     private static LineChartView mLineChart;
-    private final Runnable mEnterEndAction = new Runnable() {
-        @Override
-        public void run() {
-            // mPlayBtn.setEnabled(true);
-        }
-    };
-    // TODO: Rename and change types of parameters
 
     private String mBalance;
     private Paint mLineGridPaint;
@@ -100,7 +89,12 @@ public class BalanceFragment extends Fragment {
         TextView balanceView = (TextView) root.findViewById(R.id.balance);
         TextView amountView = (TextView) root.findViewById(R.id.amount);
         balanceView.setText(balance);
-        amountView.setText("-" + amount);
+        if (MainActivity.mIsIncome) {
+            amountView.setText("+" + amount);
+            amountView.setTextColor(getResources().getColor(R.color.green));
+        } else {
+            amountView.setText("-" + amount);
+        }
     }
 
     private void initLineChart(View root) {
@@ -138,26 +132,6 @@ public class BalanceFragment extends Fragment {
         }
 
         return values;
-    }
-
-    String[] getLabels(List<Transaction> transactions) {
-        String[] label = new String[transactions.size()];
-        int count = 0;
-        for (Transaction transaction : transactions) {
-            if (count == 0 || count == transactions.size() - 1) {
-
-                DateFormat timeInstance = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, Locale.ROOT);
-
-                Date date = transaction.getDateTime();
-                String formattedDate = timeInstance.format(date);
-                label[count] = formattedDate;
-            } else {
-                label[count] = "";
-            }
-            count++;
-        }
-
-        return label;
     }
 
     void setUnderChart(View root) {
@@ -218,6 +192,7 @@ public class BalanceFragment extends Fragment {
                 .setYLabels(YController.LabelPosition.OUTSIDE)
                 .setAxisBorderValues(LINE_MIN, LINE_MAX, STEP)
                 .setLabelsMetric(" gel")
+                .setLabelColor(getResources().getColor(R.color.yellow))
                         // .show(getAnimation(true).setEndAction(mEnterEndAction))
                 .show()
         ;

@@ -39,6 +39,14 @@ public class Transaction {
         mPlace = place;
     }
 
+    public boolean isIncome() {
+        return mIsIncome;
+    }
+
+    public void setIsIncome(boolean mIsIncome) {
+        this.mIsIncome = mIsIncome;
+    }
+
     public Transaction(Date date, String place, double amount, double balance){
         setDateTime(date);
         setPlace(place);
@@ -46,12 +54,9 @@ public class Transaction {
         setBalance(balance);
     }
 
-    public Transaction(){
-
-    }
-
     private Date mDateTime;
-    private double mAmount;
-    private double mBalance;
-    private String mPlace;
+    private double mAmount = 0;
+    private double mBalance = 0;
+    private String mPlace = "";
+    private boolean mIsIncome = false;
 }
