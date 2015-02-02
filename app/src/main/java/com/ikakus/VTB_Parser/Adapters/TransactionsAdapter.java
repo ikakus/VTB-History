@@ -116,7 +116,14 @@ public class TransactionsAdapter extends ArrayAdapter<Transaction> {
 
         textViewIn.setText("+" + InSum);
         textViewOut.setText("-" + OutSum);
+
         textViewSumTotal.setText("=" + totalSum);
+
+        if(OutSum > InSum){
+            textViewSumTotal.setTextColor(context.getResources().getColor(R.color.red));
+        }else {
+            textViewSumTotal.setTextColor(context.getResources().getColor(R.color.green));
+        }
 
         textViewMonth.setText(month_name);
 
