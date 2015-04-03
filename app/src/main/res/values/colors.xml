@@ -1,11 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="light_blue">#ff2ea5ff</color>
+    <color name="light_blue">#00BAD3</color>
     <color name="white">#ffffff</color>
     <color name="yellow">#ffffce00</color>
     <color name="orange">#ffff9211</color>
-    <color name="line">#ffffff</color>
+    <!--<color name="line">#ffffff</color>-->
     <!--<color name="line_bg">#ffff9211</color>-->
     <color name="green">#ff0bd25f</color>
     <color name="red" >#ffff4900</color>
+
+
+    <color name="axis">#ffffff</color>
+    <color name="label">#ffffff</color>
+
+    <color name="line_bg">#00bba7</color>
+    <color name="line_grid">#00a694</color>
+    <color name="line">#ffffff</color>
+    <color name="line_fill">#30ffffff</color>
+    <color name="line_tooltip">#ffffff</color>
+
 </resources>

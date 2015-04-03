@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/light_blue"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/under_chart"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp">
+
+        <TextView
+            android:id="@+id/first_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:textColor="@color/orange"
+            android:textSize="12sp"
+            android:text="test1"/>
+
+        <TextView
+            android:id="@+id/last_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:textColor="@color/orange"
+            android:textSize="12sp"
+            android:text="test2"/>
+
+    </RelativeLayout>
+
+    <!--<com.db.chart.view.LineChartView xmlns:chart="http://schemas.android.com/apk/res-auto"-->
+        <!--android:id="@+id/linechart"-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="fill_parent"-->
+        <!--android:layout_marginBottom="10dp"-->
+        <!--android:layout_marginLeft="7dp"-->
+        <!--android:layout_marginRight="7dp"-->
+        <!--android:layout_marginTop="7dp"-->
+        <!--android:background="@color/light_blue"-->
+        <!--android:paddingBottom="10dp"-->
+        <!--android:paddingLeft="10dp"-->
+        <!--android:paddingRight="10dp"-->
+        <!--android:paddingTop="10dp"-->
+        <!--chart:chart_axisBorderSpacing="3dp"-->
+        <!--chart:chart_axisColor="@color/orange"-->
+        <!--chart:chart_labelColor="@color/orange" />-->
+
+
+
+    <com.db.chart.view.LineChartView
+        xmlns:chart="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/linechart"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight=".22"
+        android:layout_marginTop="7dp"
+        android:layout_marginLeft="7dp"
+        android:layout_marginRight="7dp"
+        android:layout_marginBottom="2dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:background="#00BAD3"
+        chart:chart_axisColor="@color/axis"
+        chart:chart_typeface="Roboto-Regular.ttf"
+        chart:chart_labelColor="@color/label"
+        chart:chart_axisBorderSpacing="0dp">
+    </com.db.chart.view.LineChartView>
+
+</LinearLayout>
+
