@@ -47,7 +47,7 @@ public class SMSParser {
 
         Transaction transaction = null;
 
-        if(smsMessage.getBody().contains("TRANSACTION")) {
+        if (smsMessage.getBody().contains("TRANSACTION")) {
             String body = smsMessage.getBody();
             //TRANSACTION 2014-12-06 12:16:55 VISA ELECTRON 10.00 GEL / ATM TBC-38 (Planeta)>Tbilisi, GE.  Balance= 581.87 GEL. THANK YOU
             Date date = getDate(body);
@@ -61,11 +61,11 @@ public class SMSParser {
                 return null;
             }
 
-        }else if(smsMessage.getBody().contains("VTB. tkven chagericxat")){
+        } else if (smsMessage.getBody().contains("VTB. tkven chagericxat")) {
             String body = smsMessage.getBody();
             double amount = getIncomeAmount(body);
             double balance = round(mLastBalance + amount, 2);
-            transaction = new Transaction(smsMessage.getDate(),"",amount,balance);
+            transaction = new Transaction(smsMessage.getDate(), "", amount, balance);
             transaction.setIsIncome(true);
         }
         return transaction;
@@ -115,16 +115,24 @@ public class SMSParser {
     }
 
     private static double getOutcomeAmount(String body) {
-        String startString = "TRANSACTION 2014-12-06 12:16:55 VISA ELECTRON ";
+        String startString = "";
+        if (body.contains("MAESTRO")) {
+            startString = "TRANSACTION 2014-12-06 12:16:55 MAESTRO ";
+        } else if (body.contains("MASTER")) {
+            startString = "TRANSACTION 2014-12-06 12:16:55 MASTER CARD ";
+        } else {
+            startString = "TRANSACTION 2014-12-06 12:16:55 VISA ELECTRON ";
+        }
         String endString = " GEL ";
-        return getDouble(body,startString,endString);
+        return getDouble(body, startString, endString);
 
     }
+
     private static Date getDate(String body) {
         Date dateTime = null;
         String trans = "TRANSACTION";
         String sDateTemplate = "2014-12-06 12:16:55";
-        if (body.contains(trans)) {
+        if (body.contains(trans) && body.length() > 25) {
             String date = body.substring(trans.length() + 1, trans.length() + sDateTemplate.length() + 1);
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             try {
