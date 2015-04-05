@@ -10,6 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ikakus.VTB_Parser.Classes.Transaction;
+import com.ikakus.VTB_Parser.Classes.Utils;
 import com.ikakus.VTB_Parser.R;
 
 import java.math.BigDecimal;
@@ -17,7 +18,6 @@ import java.math.RoundingMode;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.Date;
 import java.util.Locale;
 
@@ -31,8 +31,8 @@ public class TransactionsAdapter extends ArrayAdapter<Transaction> {
 
     public TransactionsAdapter(Context context, int resource, ArrayList<Transaction> items) {
         super(context, resource, items);
-        Collections.reverse(items);
-        this.items = items;
+
+        this.items = Utils.myReverse(items);
         this.context = context;
 
     }

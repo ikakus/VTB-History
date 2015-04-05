@@ -17,11 +17,12 @@ import com.ikakus.VTB_Parser.Classes.SMSMessage;
 import com.ikakus.VTB_Parser.Classes.SMSParser;
 import com.ikakus.VTB_Parser.Classes.SMSReader;
 import com.ikakus.VTB_Parser.Classes.Transaction;
+import com.ikakus.VTB_Parser.Classes.Utils;
 import com.ikakus.VTB_Parser.Fragments.BalanceFragment;
 import com.ikakus.VTB_Parser.Fragments.ChartFragment;
 import com.ikakus.VTB_Parser.Fragments.HistoryFragment;
 
-import java.util.Collections;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends FragmentActivity {
@@ -108,9 +109,8 @@ public class MainActivity extends FragmentActivity {
         SMSReader smsReader = new SMSReader(activity);
         List<SMSMessage> allSmsFromBase = smsReaderDbHelper.getAllSms();
         List<SMSMessage> allSms = smsReader.getSMSMessage();
-        Collections.reverse(allSms);
 
-        for (SMSMessage smsMessage : allSms) {
+        for (SMSMessage smsMessage :(List<SMSMessage>) Utils.myReverse((ArrayList)allSms)) {
             if (smsMessage.getSender().equals(VTB_SENDER)) {
                 if (!allSmsFromBase.contains(smsMessage)) {
                     addSms(smsMessage, activity);

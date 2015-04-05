@@ -68,8 +68,8 @@ public class ChartFragment extends Fragment {
         return mRootView;
     }
 
-    private final static int LINE_MAX = 10;
-    private final static int LINE_MIN = -10;
+    private final static int LINE_MAX = 2500;
+    private final static int LINE_MIN = 0;
     private final static String[] lineLabels = {"", "ANT", "GNU", "OWL", "APE", "JAY", ""};
 //    private final static float[][] lineValues = {{-5f, 6f, 2f, 9f, 0f, 1f, 5f},
 //            {-9f, -2f, -4f, -3f, -7f, -5f, -3f}};
@@ -132,21 +132,7 @@ public class ChartFragment extends Fragment {
         LineSet dataSet = new LineSet();
         float[] values = getValues(MainActivity.mTransactions);
         String[] labels = getEmptyLabels(MainActivity.mTransactions);
-//        LineSet dataSet = new LineSet();
-//        dataSet.addPoints(lineLabels, lineValues[0]);
-        dataSet.addPoints(labels, values);
-        dataSet.setDots(true)
-                .setDotsColor(this.getResources().getColor(R.color.line_bg))
-                .setDotsRadius(Tools.fromDpToPx(5))
-                .setDotsStrokeThickness(Tools.fromDpToPx(2))
-                .setDotsStrokeColor(this.getResources().getColor(R.color.line))
-                .setLineColor(this.getResources().getColor(R.color.line))
-                .setLineThickness(Tools.fromDpToPx(3))
-                .beginAt(1).endAt(lineLabels.length - 1);
-        mLineChart.addData(dataSet);
 
-        dataSet = new LineSet();
-//        dataSet.addPoints(lineLabels, lineValues[1]);
         dataSet.addPoints(labels, values);
         dataSet.setLineColor(this.getResources().getColor(R.color.line))
                 .setLineThickness(Tools.fromDpToPx(3))
@@ -166,7 +152,7 @@ public class ChartFragment extends Fragment {
         //.show()
         ;
 
-        mLineChart.animateSet(1, new DashAnimation());
+        mLineChart.animateSet(0, new DashAnimation());
     }
 
 
