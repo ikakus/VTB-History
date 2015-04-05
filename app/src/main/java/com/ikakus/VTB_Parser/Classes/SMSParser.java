@@ -116,6 +116,7 @@ public class SMSParser {
 
     private static double getOutcomeAmount(String body) {
         String startString = "";
+        String endString = "";
         if (body.contains("MAESTRO")) {
             startString = "TRANSACTION 2014-12-06 12:16:55 MAESTRO ";
         } else if (body.contains("MASTER")) {
@@ -123,7 +124,12 @@ public class SMSParser {
         } else {
             startString = "TRANSACTION 2014-12-06 12:16:55 VISA ELECTRON ";
         }
-        String endString = " GEL ";
+
+        if(body.contains(" USD ")) {
+            endString = " USD ";
+        }else{
+            endString = " GEL ";
+        }
         return getDouble(body, startString, endString);
 
     }
