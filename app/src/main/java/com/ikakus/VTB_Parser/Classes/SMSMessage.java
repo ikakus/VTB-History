@@ -1,16 +1,21 @@
 package com.ikakus.VTB_Parser.Classes;
 
+import com.orm.SugarRecord;
+
 import java.util.Date;
 
 /**
  * Created by 404 on 07.12.2014.
  */
-public class SMSMessage {
+public class SMSMessage extends SugarRecord{
 
     private String mSender;
     private String mBody;
     private Date mDate;
 
+    public SMSMessage(){
+
+    }
     public SMSMessage(String sender, String body, Date date) {
         setSender(sender);
         setBody(body);

@@ -1,6 +1,7 @@
-C:\Users\404\AndroidStudioProjects\VTB Parser1\app\build\intermediates\classes\debug
-C:\Users\404\AndroidStudioProjects\VTB Parser1\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-26220e5ec485e507171deb7199cf836407b0ddce.jar
-C:\Users\404\AndroidStudioProjects\VTB Parser1\app\build\intermediates\pre-dexed\debug\classes-9733044646b0fe44e67de764ac0a709066f0c33e.jar
-C:\Users\404\AndroidStudioProjects\VTB Parser1\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-73d47359cd27838f35f525e81942318a7cddc7c9.jar
-C:\Users\404\AndroidStudioProjects\VTB Parser1\app\build\intermediates\pre-dexed\debug\classes-790b9316a9499a5dd979d3ca5f3f69ecc66954a3.jar
-C:\Users\404\AndroidStudioProjects\VTB Parser1\app\build\intermediates\pre-dexed\debug\classes-d6d8a639f92ff19a7b362ee011d26630f85f6a70.jar
+C:\Users\404\Documents\GitHub\VTB-History\app\build\intermediates\classes\debug
+C:\Users\404\Documents\GitHub\VTB-History\app\build\intermediates\pre-dexed\debug\support-annotations-21.0.3-231fb755f7051486ccd6941aa5489edb5a65a771.jar
+C:\Users\404\Documents\GitHub\VTB-History\app\build\intermediates\pre-dexed\debug\classes-8e5ccade1486c2bcfc66ce1a8aa3cb1e39b4b8b6.jar
+C:\Users\404\Documents\GitHub\VTB-History\app\build\intermediates\pre-dexed\debug\classes-9c4d125412679dd231a27973bd88f7dae6a887f2.jar
+C:\Users\404\Documents\GitHub\VTB-History\app\build\intermediates\pre-dexed\debug\internal_impl-21.0.3-f67e919989fc78cab388d8f91786ce52ef85b439.jar
+C:\Users\404\Documents\GitHub\VTB-History\app\build\intermediates\pre-dexed\debug\classes-4aa901f8bde07ab567ef9bba34186b50c2c9c031.jar
+C:\Users\404\Documents\GitHub\VTB-History\app\build\intermediates\pre-dexed\debug\classes-8a478473abcfdd7119cfb6dd7f3bcbfdac33a357.jar

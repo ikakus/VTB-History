@@ -1,7 +1,5 @@
 package com.ikakus.VTB_Parser;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -12,21 +10,18 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.widget.Toast;
 
-import com.ikakus.VTB_Parser.Classes.DatabaseHandler;
+import com.ikakus.VTB_Parser.Classes.ParsedSmsManager;
 import com.ikakus.VTB_Parser.Classes.SMSMessage;
 import com.ikakus.VTB_Parser.Classes.SMSParser;
-import com.ikakus.VTB_Parser.Classes.SMSReader;
 import com.ikakus.VTB_Parser.Classes.Transaction;
-import com.ikakus.VTB_Parser.Classes.Utils;
 import com.ikakus.VTB_Parser.Fragments.BalanceFragment;
 import com.ikakus.VTB_Parser.Fragments.ChartFragment;
 import com.ikakus.VTB_Parser.Fragments.HistoryFragment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class MainActivity extends FragmentActivity {
-    public static String VTB_SENDER = "VTB Bank";
+
 //    public static String VTB_SENDER = "+1";
 
     private MyPagerAdapter mAdapter;
@@ -50,15 +45,12 @@ public class MainActivity extends FragmentActivity {
         mAdapter = new MyPagerAdapter(this.getSupportFragmentManager());
         mViewPager.setAdapter(mAdapter);
 
-
-
-        DatabaseHandler smsReaderDbHelper = new DatabaseHandler(this);
         List<SMSMessage> smsMessages = null;
 
-        updateBase(MainActivity.this);
+        ParsedSmsManager.updateSmsBase(MainActivity.this);
 
         try {
-            smsMessages = smsReaderDbHelper.getAllSms();
+            smsMessages = SMSMessage.listAll(SMSMessage.class);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -99,26 +91,6 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
-    private void addSms(SMSMessage smsMessage, Context context) {
-        DatabaseHandler smsReaderDbHelper = new DatabaseHandler(context);
-        smsReaderDbHelper.addSms(smsMessage);
-    }
-
-    private void updateBase(Activity activity) {
-        DatabaseHandler smsReaderDbHelper = new DatabaseHandler(activity);
-        SMSReader smsReader = new SMSReader(activity);
-        List<SMSMessage> allSmsFromBase = smsReaderDbHelper.getAllSms();
-        List<SMSMessage> allSms = smsReader.getSMSMessage();
-
-        for (SMSMessage smsMessage :(List<SMSMessage>) Utils.myReverse((ArrayList)allSms)) {
-            if (smsMessage.getSender().equals(VTB_SENDER)) {
-                if (!allSmsFromBase.contains(smsMessage)) {
-                    addSms(smsMessage, activity);
-                    allSmsFromBase.add(smsMessage);
-                }
-            }
-        }
-    }
 
     public class MyPagerAdapter extends FragmentStatePagerAdapter {
 
@@ -130,11 +102,11 @@ public class MainActivity extends FragmentActivity {
         public Fragment getItem(int position) {
             Fragment fragment = null;
 
-            if(orient==1) {
+            if (orient == 1) {
                 if (position == 0) {
                     fragment = new ChartFragment();
                 }
-            }else {
+            } else {
                 if (position == 0) {
                     fragment = new BalanceFragment();
                 }
@@ -148,9 +120,9 @@ public class MainActivity extends FragmentActivity {
 
         @Override
         public int getCount() {
-            if(orient==1) {
+            if (orient == 1) {
                 return 1;
-            }else {
+            } else {
                 return 2;
             }
         }

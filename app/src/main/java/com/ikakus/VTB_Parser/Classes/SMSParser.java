@@ -1,7 +1,5 @@
 package com.ikakus.VTB_Parser.Classes;
 
-import com.ikakus.VTB_Parser.MainActivity;
-
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.ParseException;
@@ -21,9 +19,8 @@ public class SMSParser {
         List<Transaction> transactionsList = new ArrayList<Transaction>();
 
         for (SMSMessage smsMessage : smsMessages) {
-            if (smsMessage.getSender().equals(MainActivity.VTB_SENDER)) {
+            if (smsMessage.getSender().equals(ParsedSmsManager.VTB_SENDER)) {
                 Transaction transaction = null;
-
                 transaction = parseSms(smsMessage);
 
                 if (transaction != null) {
@@ -36,10 +33,9 @@ public class SMSParser {
 
     public static SMSMessage parseSmsToSmsMessage(String sms) {
         SMSMessage smsMessage;
-        String body = sms;
         //TRANSACTION 2014-12-06 12:16:55 VISA ELECTRON 10.00 GEL / ATM TBC-38 (Planeta)>Tbilisi, GE.  Balance= 581.87 GEL. THANK YOU
-        Date date = getDate(body);
-        smsMessage = new SMSMessage(MainActivity.VTB_SENDER, sms, date);
+        Date date = getDate(sms);
+        smsMessage = new SMSMessage(ParsedSmsManager.VTB_SENDER, sms, date);
         return smsMessage;
     }
 

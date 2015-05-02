@@ -6,8 +6,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.SmsMessage;
 import android.util.Log;
+
+import com.ikakus.VTB_Parser.Classes.ParsedSmsManager;
 import com.ikakus.VTB_Parser.Interfaces.SMSReceiverListener;
-import com.ikakus.VTB_Parser.MainActivity;
 
 /**
  * Created by i.dadiani on 10/30/2014.
@@ -15,8 +16,8 @@ import com.ikakus.VTB_Parser.MainActivity;
 public class SMSReceiver extends BroadcastReceiver{
     private final String TAG = this.getClass().getSimpleName();
     private SMSReceiverListener mSmsReceiverListener;
-//    private String mDedicatedSource = "VTB Bank";
-    private String mDedicatedSource = MainActivity.VTB_SENDER;
+
+    private String mDedicatedSource = ParsedSmsManager.VTB_SENDER;
 
     public SMSReceiver(SMSReceiverListener smsReceiverListener){
         mSmsReceiverListener = smsReceiverListener;
@@ -31,12 +32,12 @@ public class SMSReceiver extends BroadcastReceiver{
 
         if ( extras != null )
         {
-            Object[] smsextras = (Object[]) extras.get( "pdus" );
+            Object[] smsExtras = (Object[]) extras.get( "pdus" );
 
-            for (Object smsextra : smsextras) {
-                SmsMessage smsmsg = SmsMessage.createFromPdu((byte[]) smsextra);
-                String strMsgBody = smsmsg.getMessageBody();
-                String strMsgSrc = smsmsg.getOriginatingAddress();
+            for (Object smsExtra : smsExtras) {
+                SmsMessage smsMessage = SmsMessage.createFromPdu((byte[]) smsExtra);
+                String strMsgBody = smsMessage.getMessageBody();
+                String strMsgSrc = smsMessage.getOriginatingAddress();
 
                 strMessage += "SMS from " + strMsgSrc + " : " + strMsgBody;
 
