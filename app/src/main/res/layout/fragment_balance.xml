@@ -5,13 +5,6 @@
     android:background="@color/light_blue"
     android:orientation="vertical">
 
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="2dp"
-        android:background="@color/white"
-        android:layout_margin="5dp"/>
-
     <LinearLayout
         android:id="@+id/layout_balance"
         android:layout_width="wrap_content"
@@ -46,6 +39,13 @@
         android:text="-200.00"
         android:textColor="@color/orange"
         android:textSize="30sp" />
+
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:background="@color/white"
+        android:layout_margin="5dp"/>
 
 </LinearLayout>
 

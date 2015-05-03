@@ -1,12 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/light_blue"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/layout_balance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/balance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="500.00"
+                android:textColor="@color/white"
+                android:textSize="50sp" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:scaleX="0.5"
+                android:scaleY="0.5"
+                android:src="@drawable/gel_white" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/amount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/abc_action_bar_subtitle_top_margin_material"
+            android:text="-200.00"
+            android:textColor="@color/orange"
+            android:textSize="30sp" />
+
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_margin="5dp"
+            android:background="@color/white" />
+
+    </LinearLayout>
+
+
     <ListView
         android:id="@+id/lisview_history"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/light_blue">
-        </ListView>
+        android:background="@color/light_blue"/>
 
 </LinearLayout>

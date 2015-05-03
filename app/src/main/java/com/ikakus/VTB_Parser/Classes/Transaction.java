@@ -1,13 +1,11 @@
 package com.ikakus.VTB_Parser.Classes;
 
-import com.orm.SugarRecord;
-
 import java.util.Date;
 
 /**
  * Created by 404 on 07.12.2014.
  */
-public class Transaction extends SugarRecord<Transaction> {
+public class Transaction {
 
     public Date getDateTime() {
         return mDateTime;
@@ -49,7 +47,7 @@ public class Transaction extends SugarRecord<Transaction> {
         this.mIsIncome = mIsIncome;
     }
 
-    public Transaction(Date date, String place, double amount, double balance){
+    public Transaction(Date date, String place, double amount, double balance) {
         setDateTime(date);
         setPlace(place);
         setAmount(amount);

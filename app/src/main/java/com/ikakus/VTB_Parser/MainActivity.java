@@ -14,7 +14,6 @@ import com.ikakus.VTB_Parser.Classes.ParsedSmsManager;
 import com.ikakus.VTB_Parser.Classes.SMSMessage;
 import com.ikakus.VTB_Parser.Classes.SMSParser;
 import com.ikakus.VTB_Parser.Classes.Transaction;
-import com.ikakus.VTB_Parser.Fragments.BalanceFragment;
 import com.ikakus.VTB_Parser.Fragments.ChartFragment;
 import com.ikakus.VTB_Parser.Fragments.HistoryFragment;
 
@@ -30,7 +29,7 @@ public class MainActivity extends FragmentActivity {
     public static double mLastAmount;
     public static boolean mIsIncome = false;
     public static List<Transaction> mTransactions;
-    int orient = 0;
+    Orientation orient = Orientation.Portrait;
 
     /**
      * Called when the activity is first created.
@@ -46,7 +45,6 @@ public class MainActivity extends FragmentActivity {
         mViewPager.setAdapter(mAdapter);
 
         List<SMSMessage> smsMessages = null;
-
         ParsedSmsManager.updateSmsBase(MainActivity.this);
 
         try {
@@ -54,6 +52,7 @@ public class MainActivity extends FragmentActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
         mTransactions = SMSParser.parseSmsToTrans(smsMessages);
         setBalanceOnStart(mTransactions);
 
@@ -67,14 +66,14 @@ public class MainActivity extends FragmentActivity {
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
             Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
 
-            orient = 1;
+            orient = Orientation.Landscape;
             mAdapter = new MyPagerAdapter(this.getSupportFragmentManager());
             mViewPager.setAdapter(mAdapter);
             mAdapter.notifyDataSetChanged();
 
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
             Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
-            orient = 0;
+            orient = Orientation.Portrait;
             mAdapter = new MyPagerAdapter(this.getSupportFragmentManager());
             mViewPager.setAdapter(mAdapter);
             mAdapter.notifyDataSetChanged();
@@ -102,17 +101,18 @@ public class MainActivity extends FragmentActivity {
         public Fragment getItem(int position) {
             Fragment fragment = null;
 
-            if (orient == 1) {
+            if (orient == Orientation.Landscape) {
                 if (position == 0) {
                     fragment = new ChartFragment();
                 }
-            } else {
+            }
+            if (orient == Orientation.Portrait) {
                 if (position == 0) {
-                    fragment = new BalanceFragment();
-                }
-                if (position == 1) {
                     fragment = new HistoryFragment();
                 }
+//                if (position == 1) {
+//                    fragment = new HistoryFragment();
+//                }
             }
 
             return fragment;
@@ -120,10 +120,10 @@ public class MainActivity extends FragmentActivity {
 
         @Override
         public int getCount() {
-            if (orient == 1) {
+            if (orient == Orientation.Landscape) {
                 return 1;
             } else {
-                return 2;
+                return 1;
             }
         }
     }
