@@ -1,13 +1,16 @@
 package com.ikakus.VTB_Parser;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.ikakus.VTB_Parser.Classes.ParsedSmsManager;
@@ -16,10 +19,11 @@ import com.ikakus.VTB_Parser.Classes.SMSParser;
 import com.ikakus.VTB_Parser.Classes.Transaction;
 import com.ikakus.VTB_Parser.Fragments.ChartFragment;
 import com.ikakus.VTB_Parser.Fragments.HistoryFragment;
+import com.ikakus.VTB_Parser.Fragments.NoTransactionsFragment;
 
 import java.util.List;
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends AppCompatActivity {
 
 //    public static String VTB_SENDER = "+1";
 
@@ -43,6 +47,13 @@ public class MainActivity extends FragmentActivity {
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mAdapter = new MyPagerAdapter(this.getSupportFragmentManager());
         mViewPager.setAdapter(mAdapter);
+
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        if (toolbar != null) {
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setTitle(R.string.app_name);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        }
 
         List<SMSMessage> smsMessages = null;
         ParsedSmsManager.updateSmsBase(MainActivity.this);
@@ -90,6 +101,16 @@ public class MainActivity extends FragmentActivity {
         }
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
     public class MyPagerAdapter extends FragmentStatePagerAdapter {
 
@@ -101,20 +122,24 @@ public class MainActivity extends FragmentActivity {
         public Fragment getItem(int position) {
             Fragment fragment = null;
 
-            if (orient == Orientation.Landscape) {
-                if (position == 0) {
-                    fragment = new ChartFragment();
-                }
-            }
-            if (orient == Orientation.Portrait) {
-                if (position == 0) {
-                    fragment = new HistoryFragment();
-                }
-//                if (position == 1) {
-//                    fragment = new HistoryFragment();
-//                }
-            }
+            if (mTransactions.size() > 0) {
 
+                if (orient == Orientation.Landscape) {
+                    if (position == 0) {
+                        fragment = new ChartFragment();
+                    }
+                }
+                if (orient == Orientation.Portrait) {
+                    if (position == 0) {
+                        fragment = new HistoryFragment();
+                    }
+                }
+
+            } else {
+
+                fragment = new NoTransactionsFragment();
+                setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+            }
             return fragment;
         }
 

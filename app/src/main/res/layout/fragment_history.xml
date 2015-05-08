@@ -7,8 +7,16 @@
     <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:background="@color/light_blue"
+        android:background="@color/primary"
         android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/balance"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
 
         <LinearLayout
             android:id="@+id/layout_balance"
@@ -36,6 +44,14 @@
         </LinearLayout>
 
         <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/last_tans_amount"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <TextView
             android:id="@+id/amount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -46,19 +62,30 @@
             android:textSize="30sp" />
 
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="2dp"
-            android:layout_margin="5dp"
-            android:background="@color/white" />
+        <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="2dp"-->
+            <!--android:layout_margin="5dp"-->
+            <!--android:background="@color/white" />-->
 
     </LinearLayout>
 
-
-    <ListView
-        android:id="@+id/lisview_history"
+    <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/light_blue"/>
+        android:layout_height="match_parent">
+
+        <ListView
+            android:id="@+id/lisview_history"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/greenish"/>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="5dp"
+            android:background="@drawable/toolbar_drop_shadow" />
+    </FrameLayout>
+
+
 
 </LinearLayout>

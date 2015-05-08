@@ -1,0 +1,8 @@
+<resources>
+
+    <style name="PopupMenuStyle" parent="Base.ThemeOverlay.AppCompat.ActionBar">
+        <item name="android:textColorPrimary">@color/primary</item>
+        <item name="android:gravity">left|center</item>
+        <item name="android:background">@color/white</item>
+    </style>
+</resources>

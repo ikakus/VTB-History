@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="light_blue">#00BAD3</color>
+    <color name="primary">#4f5d73</color>
     <color name="white">#ffffff</color>
     <color name="yellow">#ffffce00</color>
     <color name="orange">#ffff9211</color>
-    <!--<color name="line">#ffffff</color>-->
-    <!--<color name="line_bg">#ffff9211</color>-->
     <color name="green">#ff0bd25f</color>
-    <color name="red" >#ffff4900</color>
+    <color name="red">#ffff4900</color>
 
 
     <color name="axis">#ffffff</color>
@@ -18,5 +17,14 @@
     <color name="line">#ffffff</color>
     <color name="line_fill">#30ffffff</color>
     <color name="line_tooltip">#ffffff</color>
+
+    <color name="dark">#4f5d73</color>
+    <color name="darker">#404d61</color>
+    <color name="greenish">#76c2af</color>
+    <color name="whiteish">#deded1</color>
+
+    <color name="accent">#ffff9211</color>
+    <color name="secondary_text">#ffffff</color>
+    <color name="primary_text">#ffffff</color>
 
 </resources>

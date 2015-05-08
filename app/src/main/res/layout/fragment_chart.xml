@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/light_blue"
+    android:background="@color/primary"
     android:orientation="vertical">
 
     <RelativeLayout
@@ -64,7 +64,7 @@
         android:paddingBottom="10dp"
         android:paddingLeft="10dp"
         android:paddingRight="10dp"
-        android:background="#00BAD3"
+        android:background="@color/primary"
         chart:chart_axisColor="@color/axis"
         chart:chart_typeface="Roboto-Regular.ttf"
         chart:chart_labelColor="@color/label"

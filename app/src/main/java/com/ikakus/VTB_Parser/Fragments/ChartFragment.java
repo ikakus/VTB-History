@@ -70,9 +70,6 @@ public class ChartFragment extends Fragment {
 
     private final static int LINE_MAX = 2500;
     private final static int LINE_MIN = 0;
-    private final static String[] lineLabels = {"", "ANT", "GNU", "OWL", "APE", "JAY", ""};
-//    private final static float[][] lineValues = {{-5f, 6f, 2f, 9f, 0f, 1f, 5f},
-//            {-9f, -2f, -4f, -3f, -7f, -5f, -3f}};
     private static LineChartView mLineChart;
     private Paint mLineGridPaint;
     private TextView mLineTooltip;
@@ -96,38 +93,15 @@ public class ChartFragment extends Fragment {
         mLineGridPaint.setStrokeWidth(Tools.fromDpToPx(.75f));
     }
 
-
-//    private void updateLineChart() {
-//
-//        mLineChart.reset();
-//        LineSet dataSet = new LineSet();
-//        float[] values = getValues(MainActivity.mTransactions);
-//        String[] labels = getEmptyLabels(MainActivity.mTransactions);
-//
-//        dataSet.addPoints(labels, values);
-//        dataSet.setLineColor(this.getResources().getColor(R.color.line))
-//                .setLineThickness(Tools.fromDpToPx(3))
-//                .setSmooth(true);
-//        mLineChart.addData(dataSet);
-//
-//        mLineChart.setBorderSpacing(Tools.fromDpToPx(4))
-////                .setHorizontalGrid(mLineGridPaint)
-//                .setXAxis(false)
-//                .setXLabels(XController.LabelPosition.NONE)
-//                .setYAxis(false)
-//                .setYLabels(YController.LabelPosition.OUTSIDE)
-//                .setAxisBorderValues(LINE_MIN, LINE_MAX, STEP)
-////                .setLabelsMetric(" gel")
-//                .setLabelColor(getResources().getColor(R.color.yellow))
-//                        // .show(getAnimation(true).setEndAction(mEnterEndAction))
-//                .show()
-//        ;
-//    }
-
-
     private void updateLineChart() {
 
         mLineChart.reset();
+
+        TextView firstDate = (TextView) mRootView.findViewById(R.id.first_date);
+        TextView lastDate = (TextView) mRootView.findViewById(R.id.last_date);
+
+        firstDate.setText(MainActivity.mTransactions.get(0).getDateTime().toString());
+        lastDate.setText(MainActivity.mTransactions.get(MainActivity.mTransactions.size()-1).getDateTime().toString());
 
         LineSet dataSet = new LineSet();
         float[] values = getValues(MainActivity.mTransactions);
@@ -147,7 +121,7 @@ public class ChartFragment extends Fragment {
                 .setYAxis(false)
                 .setYLabels(YController.LabelPosition.OUTSIDE)
                 .setAxisBorderValues(LINE_MIN, LINE_MAX, STEP)
-                .setLabelsFormat(new DecimalFormat("##'u'"))
+                .setLabelsFormat(new DecimalFormat("##' gel'"))
                 .show(getAnimation(true))
         //.show()
         ;
@@ -290,20 +264,6 @@ public class ChartFragment extends Fragment {
         }
     }
 
-
-//
-//
-//    private void initLineChart(View root) {
-//
-//        mLineChart = (LineChartView) root.findViewById(R.id.linechart);
-//        mLineGridPaint = new Paint();
-//        mLineGridPaint.setColor(this.getResources().getColor(R.color.white));
-//        mLineGridPaint.setPathEffect(new DashPathEffect(new float[]{5, 5}, 0));
-//        mLineGridPaint.setStyle(Paint.Style.STROKE);
-//        mLineGridPaint.setAntiAlias(true);
-//        mLineGridPaint.setStrokeWidth(Tools.fromDpToPx(.75f));
-//    }
-
     float[] getValues(List<Transaction> transactions) {
         float[] values = new float[transactions.size()];
 
@@ -317,32 +277,6 @@ public class ChartFragment extends Fragment {
         return values;
     }
 
-    //
-//    void setUnderChart(View root) {
-//        TextView first = (TextView) root.findViewById(R.id.first_date);
-//        TextView last = (TextView) root.findViewById(R.id.last_date);
-//
-//        int count = 0;
-//        List<Transaction> transactions = MainActivity.mTransactions;
-//        for (Transaction transaction : transactions) {
-//            if (count == 0) {
-//                DateFormat timeInstance = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, Locale.ROOT);
-//
-//                Date date = transaction.getDateTime();
-//                String formattedDate = timeInstance.format(date);
-//                first.setText(formattedDate);
-//            }
-//            if (count == transactions.size() - 1) {
-//                DateFormat timeInstance = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.SHORT, Locale.ROOT);
-//
-//                Date date = transaction.getDateTime();
-//                String formattedDate = timeInstance.format(date);
-//                last.setText(formattedDate);
-//            }
-//            count++;
-//        }
-//    }
-//
     String[] getEmptyLabels(List<Transaction> transactions) {
         String[] label = new String[transactions.size()];
         int count = 0;
@@ -353,33 +287,5 @@ public class ChartFragment extends Fragment {
 
         return label;
     }
-//
-//
-//    private void updateLineChart() {
-//
-//        mLineChart.reset();
-//        LineSet dataSet = new LineSet();
-//        float[] values = getValues(MainActivity.mTransactions);
-//        String[] labels = getEmptyLabels(MainActivity.mTransactions);
-//
-//        dataSet.addPoints(labels, values);
-//        dataSet.setLineColor(this.getResources().getColor(R.color.line))
-//                .setLineThickness(Tools.fromDpToPx(3))
-//                .setSmooth(true);
-//        mLineChart.addData(dataSet);
-//
-//        mLineChart.setBorderSpacing(Tools.fromDpToPx(4))
-////                .setHorizontalGrid(mLineGridPaint)
-//                .setXAxis(false)
-//                .setXLabels(XController.LabelPosition.NONE)
-//                .setYAxis(false)
-//                .setYLabels(YController.LabelPosition.OUTSIDE)
-//                .setAxisBorderValues(LINE_MIN, LINE_MAX, STEP)
-////                .setLabelsMetric(" gel")
-//                .setLabelColor(getResources().getColor(R.color.yellow))
-//                        // .show(getAnimation(true).setEndAction(mEnterEndAction))
-//                .show()
-//        ;
-//    }
 
 }
