@@ -27,7 +27,7 @@ import com.db.chart.view.animation.Animation;
 import com.db.chart.view.animation.easing.BaseEasingMethod;
 import com.db.chart.view.animation.easing.quint.QuintEaseOut;
 import com.db.chart.view.animation.style.DashAnimation;
-import com.ikakus.VTB_Parser.Classes.Transaction;
+import com.ikakus.VTB_Parser.Classes.Trans;
 import com.ikakus.VTB_Parser.MainActivity;
 import com.ikakus.VTB_Parser.R;
 
@@ -264,12 +264,12 @@ public class ChartFragment extends Fragment {
         }
     }
 
-    float[] getValues(List<Transaction> transactions) {
+    float[] getValues(List<Trans> transactions) {
         float[] values = new float[transactions.size()];
 
         int count = 0;
 
-        for (Transaction transaction : transactions) {
+        for (Trans transaction : transactions) {
             values[count] = (float) transaction.getBalance();
             count++;
         }
@@ -277,10 +277,10 @@ public class ChartFragment extends Fragment {
         return values;
     }
 
-    String[] getEmptyLabels(List<Transaction> transactions) {
+    String[] getEmptyLabels(List<Trans> transactions) {
         String[] label = new String[transactions.size()];
         int count = 0;
-        for (Transaction transaction : transactions) {
+        for (Trans transaction : transactions) {
             label[count] = "";
             count++;
         }

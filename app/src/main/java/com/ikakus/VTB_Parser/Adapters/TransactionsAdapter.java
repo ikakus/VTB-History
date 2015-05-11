@@ -9,7 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.ikakus.VTB_Parser.Classes.Transaction;
+import com.ikakus.VTB_Parser.Classes.Trans;
 import com.ikakus.VTB_Parser.Classes.Utils;
 import com.ikakus.VTB_Parser.R;
 
@@ -24,12 +24,12 @@ import java.util.Locale;
 /**
  * Created by 404 on 07.01.2015.
  */
-public class TransactionsAdapter extends ArrayAdapter<Transaction> {
+public class TransactionsAdapter extends ArrayAdapter<Trans> {
 
-    private ArrayList<Transaction> items;
+    private ArrayList<Trans> items;
     private Context context;
 
-    public TransactionsAdapter(Context context, int resource, ArrayList<Transaction> items) {
+    public TransactionsAdapter(Context context, int resource, ArrayList<Trans> items) {
         super(context, resource, items);
 
         this.items = Utils.myReverse(items);
@@ -130,7 +130,7 @@ public class TransactionsAdapter extends ArrayAdapter<Transaction> {
         textViewSum.setText(" -" + OutSum);
     }
 
-    private double calculateOutcomeSumForMonth(int position, ArrayList<Transaction> items) {
+    private double calculateOutcomeSumForMonth(int position, ArrayList<Trans> items) {
         double sum = 0;
         int count = 0;
 
@@ -161,7 +161,7 @@ public class TransactionsAdapter extends ArrayAdapter<Transaction> {
 
     }
 
-    private double calculateIncomeSumForMonth(int position, ArrayList<Transaction> items) {
+    private double calculateIncomeSumForMonth(int position, ArrayList<Trans> items) {
         double sum = 0;
         int count = 0;
 

@@ -11,7 +11,7 @@ import android.widget.TextView;
 import com.ikakus.VTB_Parser.Adapters.TransactionsAdapter;
 import com.ikakus.VTB_Parser.Classes.MathUtils;
 import com.ikakus.VTB_Parser.Classes.NumberAnimator;
-import com.ikakus.VTB_Parser.Classes.Transaction;
+import com.ikakus.VTB_Parser.Classes.Trans;
 import com.ikakus.VTB_Parser.MainActivity;
 import com.ikakus.VTB_Parser.R;
 
@@ -37,7 +37,7 @@ public class HistoryFragment extends Fragment {
         mRootView = inflater.inflate(R.layout.fragment_history, container, false);
 
         ListView listView = (ListView) mRootView.findViewById(R.id.lisview_history);
-        TransactionsAdapter transactionsAdapter = new TransactionsAdapter(getActivity(),R.layout.history_item,(ArrayList<Transaction>) MainActivity.mTransactions);
+        TransactionsAdapter transactionsAdapter = new TransactionsAdapter(getActivity(),R.layout.history_item,(ArrayList<Trans>) MainActivity.mTransactions);
 
         listView.setAdapter(transactionsAdapter);
 

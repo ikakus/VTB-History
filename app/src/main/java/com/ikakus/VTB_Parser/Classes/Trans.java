@@ -1,11 +1,32 @@
 package com.ikakus.VTB_Parser.Classes;
 
+import com.orm.SugarRecord;
+
 import java.util.Date;
 
 /**
  * Created by 404 on 07.12.2014.
  */
-public class Transaction {
+public class Trans extends SugarRecord {
+
+    private Date mDateTime;
+    private double mAmount = 0;
+    private double mBalance = 0;
+    private String mPlace = "";
+    private boolean mIsIncome = false;
+    private String Comment = "";
+    private String Title = "";
+
+    public Trans() {
+
+    }
+
+    public Trans(Date date, String place, double amount, double balance) {
+        setDateTime(date);
+        setPlace(place);
+        setAmount(amount);
+        setBalance(balance);
+    }
 
     public Date getDateTime() {
         return mDateTime;
@@ -47,16 +68,20 @@ public class Transaction {
         this.mIsIncome = mIsIncome;
     }
 
-    public Transaction(Date date, String place, double amount, double balance) {
-        setDateTime(date);
-        setPlace(place);
-        setAmount(amount);
-        setBalance(balance);
+    public String getTitle() {
+        return Title;
     }
 
-    private Date mDateTime;
-    private double mAmount = 0;
-    private double mBalance = 0;
-    private String mPlace = "";
-    private boolean mIsIncome = false;
+    public void setTitle(String title) {
+        Title = title;
+    }
+
+    public String getComment() {
+        return Comment;
+    }
+
+    public void setComment(String comment) {
+        Comment = comment;
+    }
+
 }

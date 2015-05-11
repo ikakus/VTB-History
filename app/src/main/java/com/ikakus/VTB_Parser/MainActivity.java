@@ -14,9 +14,7 @@ import android.view.MenuItem;
 import android.widget.Toast;
 
 import com.ikakus.VTB_Parser.Classes.ParsedSmsManager;
-import com.ikakus.VTB_Parser.Classes.SMSMessage;
-import com.ikakus.VTB_Parser.Classes.SMSParser;
-import com.ikakus.VTB_Parser.Classes.Transaction;
+import com.ikakus.VTB_Parser.Classes.Trans;
 import com.ikakus.VTB_Parser.Fragments.ChartFragment;
 import com.ikakus.VTB_Parser.Fragments.HistoryFragment;
 import com.ikakus.VTB_Parser.Fragments.NoTransactionsFragment;
@@ -32,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
     public static double mBalance;
     public static double mLastAmount;
     public static boolean mIsIncome = false;
-    public static List<Transaction> mTransactions;
+    public static List<Trans> mTransactions;
     Orientation orient = Orientation.Portrait;
 
     /**
@@ -55,16 +53,8 @@ public class MainActivity extends AppCompatActivity {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        List<SMSMessage> smsMessages = null;
         ParsedSmsManager.updateSmsBase(MainActivity.this);
-
-        try {
-            smsMessages = SMSMessage.listAll(SMSMessage.class);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        mTransactions = SMSParser.parseSmsToTrans(smsMessages);
+        mTransactions = Trans.listAll(Trans.class);
         setBalanceOnStart(mTransactions);
 
     }
@@ -91,10 +81,10 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void setBalanceOnStart(List<Transaction> transactions) {
+    private void setBalanceOnStart(List<Trans> transactions) {
         int size = transactions.size();
         if (size > 0) {
-            Transaction lastTransaction = transactions.get(size - 1);
+            Trans lastTransaction = transactions.get(size - 1);
             mBalance = lastTransaction.getBalance();
             mLastAmount = lastTransaction.getAmount();
             mIsIncome = lastTransaction.isIncome();

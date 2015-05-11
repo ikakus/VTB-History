@@ -11,17 +11,17 @@ import java.util.List;
 /**
  * Created by 404 on 07.12.2014.
  */
-public class SMSParser {
+public class VTBSmsParser {
 
     private static double mLastBalance = 0;
 
-    public static List<Transaction> parseSmsToTrans(List<SMSMessage> smsMessages) {
-        List<Transaction> transactionsList = new ArrayList<Transaction>();
+    public static List<Trans> parseSmsListToTransList(List<SMSMessage> smsMessages) {
+        List<Trans> transactionsList = new ArrayList<Trans>();
 
         for (SMSMessage smsMessage : smsMessages) {
             if (smsMessage.getSender().equals(ParsedSmsManager.VTB_SENDER)) {
-                Transaction transaction = null;
-                transaction = parseSms(smsMessage);
+                Trans transaction = null;
+                transaction = parseSmsToTrans(smsMessage);
 
                 if (transaction != null) {
                     transactionsList.add(transaction);
@@ -31,7 +31,7 @@ public class SMSParser {
         return transactionsList;
     }
 
-    public static SMSMessage parseSmsToSmsMessage(String sms) {
+    public static SMSMessage parseStrToSmsMessage(String sms) {
         SMSMessage smsMessage;
         //TRANSACTION 2014-12-06 12:16:55 VISA ELECTRON 10.00 GEL / ATM TBC-38 (Planeta)>Tbilisi, GE.  Balance= 581.87 GEL. THANK YOU
         Date date = getDate(sms);
@@ -39,9 +39,9 @@ public class SMSParser {
         return smsMessage;
     }
 
-    private static Transaction parseSms(SMSMessage smsMessage) {
+    public static Trans parseSmsToTrans(SMSMessage smsMessage) {
 
-        Transaction transaction = null;
+        Trans transaction = null;
 
         if (smsMessage.getBody().contains("TRANSACTION")) {
             String body = smsMessage.getBody();
@@ -51,7 +51,7 @@ public class SMSParser {
             double balance = getBalance(body);
             String place = getPlace(body);
             if (balance > 0 && amount > 0 && !place.equals("")) {
-                transaction = new Transaction(date, place, amount, balance);
+                transaction = new Trans(date, place, amount, balance);
                 mLastBalance = balance;
             } else {
                 return null;
@@ -61,7 +61,7 @@ public class SMSParser {
             String body = smsMessage.getBody();
             double amount = getIncomeAmount(body);
             double balance = round(mLastBalance + amount, 2);
-            transaction = new Transaction(smsMessage.getDate(), "", amount, balance);
+            transaction = new Trans(smsMessage.getDate(), "", amount, balance);
             transaction.setIsIncome(true);
         }
         return transaction;
