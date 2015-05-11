@@ -1,4 +1,8 @@
-package com.ikakus.VTB_Parser.Classes;
+package com.ikakus.VTB_Parser.Parsers;
+
+import com.ikakus.VTB_Parser.Classes.ParsedSmsManager;
+import com.ikakus.VTB_Parser.Classes.SMSMessage;
+import com.ikakus.VTB_Parser.Classes.Trans;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -51,7 +55,7 @@ public class VTBSmsParser {
             double balance = getBalance(body);
             String place = getPlace(body);
             if (balance > 0 && amount > 0 && !place.equals("")) {
-                transaction = new Trans(date, place, amount, balance);
+                transaction = new Trans(date, place, amount, balance, smsMessage.getBody());
                 mLastBalance = balance;
             } else {
                 return null;
@@ -61,7 +65,7 @@ public class VTBSmsParser {
             String body = smsMessage.getBody();
             double amount = getIncomeAmount(body);
             double balance = round(mLastBalance + amount, 2);
-            transaction = new Trans(smsMessage.getDate(), "", amount, balance);
+            transaction = new Trans(smsMessage.getDate(), "", amount, balance, smsMessage.getBody());
             transaction.setIsIncome(true);
         }
         return transaction;

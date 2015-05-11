@@ -23,4 +23,5 @@ dependencies {
     compile 'com.android.support:support-v4:22.1.1'
     compile 'com.diogobernardino:williamchart:1.7.0'
     compile 'com.github.satyan:sugar:1.+'
+    compile 'se.emilsjolander.stickylistheaders:library:2.0.1'
 }

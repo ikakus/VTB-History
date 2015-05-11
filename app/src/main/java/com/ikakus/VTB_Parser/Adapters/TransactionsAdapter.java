@@ -116,7 +116,6 @@ public class TransactionsAdapter extends ArrayAdapter<Trans> {
 
         textViewIn.setText("+" + InSum);
         textViewOut.setText("-" + OutSum);
-
         textViewSumTotal.setText("=" + totalSum);
 
         if(OutSum > InSum){

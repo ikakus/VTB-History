@@ -16,16 +16,18 @@ public class Trans extends SugarRecord {
     private boolean mIsIncome = false;
     private String Comment = "";
     private String Title = "";
+    private String SmsBody = "";
 
     public Trans() {
 
     }
 
-    public Trans(Date date, String place, double amount, double balance) {
+    public Trans(Date date, String place, double amount, double balance, String smsBody) {
         setDateTime(date);
         setPlace(place);
         setAmount(amount);
         setBalance(balance);
+        setSmsBody(smsBody);
     }
 
     public Date getDateTime() {
@@ -83,5 +85,14 @@ public class Trans extends SugarRecord {
     public void setComment(String comment) {
         Comment = comment;
     }
+
+    public String getSmsBody() {
+        return SmsBody;
+    }
+
+    public void setSmsBody(String smsBody) {
+        SmsBody = smsBody;
+    }
+
 
 }

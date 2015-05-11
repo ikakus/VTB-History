@@ -5,8 +5,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.ikakus.VTB_Parser.Adapters.TransactionsAdapter;
 import com.ikakus.VTB_Parser.Classes.MathUtils;
@@ -21,6 +23,7 @@ import java.util.ArrayList;
 public class HistoryFragment extends Fragment {
 
     View mRootView;
+
     public HistoryFragment() {
         // Required empty public constructor
     }
@@ -37,9 +40,16 @@ public class HistoryFragment extends Fragment {
         mRootView = inflater.inflate(R.layout.fragment_history, container, false);
 
         ListView listView = (ListView) mRootView.findViewById(R.id.lisview_history);
-        TransactionsAdapter transactionsAdapter = new TransactionsAdapter(getActivity(),R.layout.history_item,(ArrayList<Trans>) MainActivity.mTransactions);
+        TransactionsAdapter transactionsAdapter = new TransactionsAdapter(getActivity(), R.layout.history_item, (ArrayList<Trans>) MainActivity.mTransactions);
 
         listView.setAdapter(transactionsAdapter);
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Trans transaction = MainActivity.mTransactions.get((MainActivity.mTransactions.size() - 1) - position);
+                Toast.makeText(getActivity(), transaction.getSmsBody(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
         setBalance(
                 Double.toString(MainActivity.mBalance),

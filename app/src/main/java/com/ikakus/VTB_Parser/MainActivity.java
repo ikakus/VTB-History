@@ -11,7 +11,6 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.Toast;
 
 import com.ikakus.VTB_Parser.Classes.ParsedSmsManager;
 import com.ikakus.VTB_Parser.Classes.Trans;
@@ -65,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Checks the orientation of the screen
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
 
             orient = Orientation.Landscape;
             mAdapter = new MyPagerAdapter(this.getSupportFragmentManager());
@@ -73,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
             mAdapter.notifyDataSetChanged();
 
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
+//            Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
             orient = Orientation.Portrait;
             mAdapter = new MyPagerAdapter(this.getSupportFragmentManager());
             mViewPager.setAdapter(mAdapter);

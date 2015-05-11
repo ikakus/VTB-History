@@ -2,6 +2,8 @@ package com.ikakus.VTB_Parser.Classes;
 
 import android.app.Activity;
 
+import com.ikakus.VTB_Parser.Parsers.VTBSmsParser;
+
 import java.util.ArrayList;
 import java.util.List;
 

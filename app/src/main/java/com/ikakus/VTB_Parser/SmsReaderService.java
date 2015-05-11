@@ -8,8 +8,8 @@ import android.os.IBinder;
 import com.ikakus.VTB_Parser.BroadcastReceivers.SMSReceiver;
 import com.ikakus.VTB_Parser.Classes.ParsedSmsManager;
 import com.ikakus.VTB_Parser.Classes.SMSMessage;
-import com.ikakus.VTB_Parser.Classes.VTBSmsParser;
 import com.ikakus.VTB_Parser.Interfaces.SMSReceiverListener;
+import com.ikakus.VTB_Parser.Parsers.VTBSmsParser;
 
 import java.util.List;
 
