@@ -1818,13 +1818,14 @@ containing a value of this type.
         public static final int fragment_chart=0x7f03001b;
         public static final int fragment_history=0x7f03001c;
         public static final int fragment_no_transactions=0x7f03001d;
-        public static final int history_item=0x7f03001e;
-        public static final int main=0x7f03001f;
-        public static final int select_dialog_item_material=0x7f030020;
-        public static final int select_dialog_multichoice_material=0x7f030021;
-        public static final int select_dialog_singlechoice_material=0x7f030022;
-        public static final int support_simple_spinner_dropdown_item=0x7f030023;
-        public static final int toolbar=0x7f030024;
+        public static final int header=0x7f03001e;
+        public static final int history_item=0x7f03001f;
+        public static final int main=0x7f030020;
+        public static final int select_dialog_item_material=0x7f030021;
+        public static final int select_dialog_multichoice_material=0x7f030022;
+        public static final int select_dialog_singlechoice_material=0x7f030023;
+        public static final int support_simple_spinner_dropdown_item=0x7f030024;
+        public static final int toolbar=0x7f030025;
     }
     public static final class string {
         public static final int abc_action_bar_home_description=0x7f0a0000;

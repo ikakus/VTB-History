@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -18,6 +17,8 @@ import com.ikakus.VTB_Parser.MainActivity;
 import com.ikakus.VTB_Parser.R;
 
 import java.util.ArrayList;
+
+import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
 
 public class HistoryFragment extends Fragment {
@@ -39,7 +40,7 @@ public class HistoryFragment extends Fragment {
         // Inflate the layout for this fragment
         mRootView = inflater.inflate(R.layout.fragment_history, container, false);
 
-        ListView listView = (ListView) mRootView.findViewById(R.id.lisview_history);
+        StickyListHeadersListView listView = (StickyListHeadersListView ) mRootView.findViewById(R.id.lisview_history);
         TransactionsAdapter transactionsAdapter = new TransactionsAdapter(getActivity(), R.layout.history_item, (ArrayList<Trans>) MainActivity.mTransactions);
 
         listView.setAdapter(transactionsAdapter);

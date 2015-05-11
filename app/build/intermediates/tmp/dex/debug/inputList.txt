@@ -1,5 +1,6 @@
 C:\Users\i.dadiani\Desktop\VTB-History\app\build\intermediates\classes\debug
 C:\Users\i.dadiani\Desktop\VTB-History\app\build\intermediates\pre-dexed\debug\support-annotations-22.1.1-fe52b3d58411d655ad7b2fd4292fff145dbd0f16.jar
+C:\Users\i.dadiani\Desktop\VTB-History\app\build\intermediates\pre-dexed\debug\classes-2a8e941f16d9d324d5f25b7129c09c4901b6a0d1.jar
 C:\Users\i.dadiani\Desktop\VTB-History\app\build\intermediates\pre-dexed\debug\classes-edeef68216628c5906b74e63d2992a1cfdd19ae8.jar
 C:\Users\i.dadiani\Desktop\VTB-History\app\build\intermediates\pre-dexed\debug\classes-c3355e971bf3a5cb5f1046375ebdc491ae875c12.jar
 C:\Users\i.dadiani\Desktop\VTB-History\app\build\intermediates\pre-dexed\debug\internal_impl-22.1.1-2327f38d46328b6b9469df558f992a1d166fc6ef.jar

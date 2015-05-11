@@ -5,8 +5,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.ikakus.VTB_Parser.Classes.Trans;
@@ -19,21 +17,29 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+
+import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 /**
  * Created by 404 on 07.01.2015.
  */
-public class TransactionsAdapter extends ArrayAdapter<Trans> {
+public class TransactionsAdapter extends ArrayAdapter<Trans> implements StickyListHeadersAdapter {
 
     private ArrayList<Trans> items;
     private Context context;
+    private LayoutInflater inflater;
+    private HashMap<String, Double> stringHashMap;
 
     public TransactionsAdapter(Context context, int resource, ArrayList<Trans> items) {
         super(context, resource, items);
 
         this.items = Utils.myReverse(items);
         this.context = context;
+        this.inflater = LayoutInflater.from(context);
+        stringHashMap = new HashMap<>();
+        calculateOutcomeSumForMonth(items);
 
     }
 
@@ -53,20 +59,7 @@ public class TransactionsAdapter extends ArrayAdapter<Trans> {
         TextView textViewBalance = (TextView) rowView.findViewById(R.id.balance);
         TextView textViewDate = (TextView) rowView.findViewById(R.id.date);
 
-
-        if (position > 0) {
-            Date datePrev = items.get(position - 1).getDateTime();
-            Date dateCurr = items.get(position).getDateTime();
-
-            if (dateCurr.getMonth() != datePrev.getMonth()) {
-                setMonthData(position, rowView, dateCurr);
-            }
-        }
-
-        if (position == 0) {
-            Date dateCurr = items.get(position).getDateTime();
-            setMonthData(position, rowView, dateCurr);
-        }
+//        setHeaders(position, rowView);
 
         double amount = items.get(position).getAmount();
         if (items.get(position).isIncome()) {
@@ -86,31 +79,33 @@ public class TransactionsAdapter extends ArrayAdapter<Trans> {
         return rowView;
     }
 
-    private void setMonthData(int position, final View rowView, Date dateCurr) {
+    private void setHeaders(int position, View rowView) {
+        if (position > 0) {
+            Date datePrev = items.get(position - 1).getDateTime();
+            Date dateCurr = items.get(position).getDateTime();
 
-        RelativeLayout dividerLayout = (RelativeLayout) rowView.findViewById(R.id.divider);
+            if (dateCurr.getMonth() != datePrev.getMonth()) {
+                setMonthData(position, rowView, dateCurr);
+            }
+        }
+
+        if (position == 0) {
+            Date dateCurr = items.get(position).getDateTime();
+            setMonthData(position, rowView, dateCurr);
+        }
+    }
+
+    private void setMonthData(int position, final View rowView, Date dateCurr) {
         TextView textViewMonth = (TextView) rowView.findViewById(R.id.month);
         TextView textViewSum = (TextView) rowView.findViewById(R.id.sum);
         TextView textViewIn = (TextView) rowView.findViewById(R.id.in);
         TextView textViewOut = (TextView) rowView.findViewById(R.id.out);
         TextView textViewSumTotal = (TextView) rowView.findViewById(R.id.sum_total);
-        dividerLayout.setVisibility(View.VISIBLE);
 
-        dividerLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                LinearLayout infoLayout = (LinearLayout) rowView.findViewById(R.id.info);
-                if(infoLayout.getVisibility() == View.VISIBLE) {
-                    infoLayout.setVisibility(View.GONE);
-                }else {
-                    infoLayout.setVisibility(View.VISIBLE);
-                }
-            }
-        });
         SimpleDateFormat month_date = new SimpleDateFormat("MMMMMMMMM");
         String month_name = month_date.format(dateCurr);
 
-        double OutSum = calculateOutcomeSumForMonth(position, items);
+        double OutSum = getOutcomeSumForMonth(position);
         double InSum = calculateIncomeSumForMonth(position, items);
         double totalSum = round(InSum - OutSum, 2);
 
@@ -118,46 +113,39 @@ public class TransactionsAdapter extends ArrayAdapter<Trans> {
         textViewOut.setText("-" + OutSum);
         textViewSumTotal.setText("=" + totalSum);
 
-        if(OutSum > InSum){
+        if (OutSum > InSum) {
             textViewSumTotal.setTextColor(context.getResources().getColor(R.color.red));
-        }else {
+        } else {
             textViewSumTotal.setTextColor(context.getResources().getColor(R.color.green));
         }
 
         textViewMonth.setText(month_name);
-
         textViewSum.setText(" -" + OutSum);
     }
 
-    private double calculateOutcomeSumForMonth(int position, ArrayList<Trans> items) {
+    private void calculateOutcomeSumForMonth(ArrayList<Trans> transactions) {
         double sum = 0;
-        int count = 0;
+        for (Trans trans : transactions) {
+            String key = (trans.getDateTime().getMonth() + trans.getDateTime().getYear()) + "";
 
-        while (items.get(position).getDateTime().getMonth() ==
-                items.get(position + count).getDateTime().getMonth()) {
+            if (!stringHashMap.containsKey(key)) {
+                sum = 0;
+                sum += trans.getAmount();
+                stringHashMap.put(key, sum);
+            }else{
 
-            if (items.size() - 1 == position + count) {
-                if (!items.get(position + count).isIncome()) {
-                    sum += items.get(position + count).getAmount();
-                }
-                break;
-            }
-
-            if ((position + count) < items.size()) {
-                if (!items.get(position + count).isIncome()) {
-                    sum += items.get(position + count).getAmount();
-                }
-                count++;
-            } else {
-                break;
-            }
-
-            if (items.size() == 1) {
-                break;
+                sum += trans.getAmount();
+                stringHashMap.put(key, sum);
             }
         }
-        return round(sum, 2);
 
+    }
+
+    private double getOutcomeSumForMonth(int position) {
+        Date dateCurr = items.get(position).getDateTime();
+        String key = (dateCurr.getMonth() + dateCurr.getYear()) + "";
+        double sum = stringHashMap.get(key);
+        return round(sum, 2);
     }
 
     private double calculateIncomeSumForMonth(int position, ArrayList<Trans> items) {
@@ -188,5 +176,23 @@ public class TransactionsAdapter extends ArrayAdapter<Trans> {
             }
         }
         return round(sum, 2);
+    }
+
+    @Override
+    public View getHeaderView(int position, View convertView, ViewGroup parent) {
+        Date dateCurr = items.get(position).getDateTime();
+        convertView = inflater.inflate(R.layout.header, parent, false);
+
+        setMonthData(position, convertView, dateCurr);
+        return convertView;
+    }
+
+    @Override
+    public long getHeaderId(int position) {
+        SimpleDateFormat month_date = new SimpleDateFormat("MMMMMMMMM");
+        Date dateCurr = items.get(position).getDateTime();
+        String month_name = month_date.format(dateCurr);
+
+        return month_name.charAt(0);
     }
 }
