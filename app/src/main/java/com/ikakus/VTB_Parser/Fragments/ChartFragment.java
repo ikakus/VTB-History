@@ -26,6 +26,7 @@ import com.db.chart.view.animation.easing.BaseEasingMethod;
 import com.db.chart.view.animation.easing.quint.QuintEaseOut;
 import com.db.chart.view.animation.style.DashAnimation;
 import com.ikakus.VTB_Parser.Classes.Trans;
+import com.ikakus.VTB_Parser.Classes.Utils;
 import com.ikakus.VTB_Parser.MainActivity;
 import com.ikakus.VTB_Parser.R;
 
@@ -80,7 +81,7 @@ public class ChartFragment extends Fragment {
         return mRootView;
     }
 
-    private final static int LINE_MAX = 2500;
+    //    private final static int LINE_MAX = 2500;
     private final static int LINE_MIN = 0;
     private LineChartView mLineChart;
     private Paint mLineGridPaint;
@@ -124,13 +125,17 @@ public class ChartFragment extends Fragment {
                 .setDashed(true);
         mLineChart.addData(dataSet);
 
+        int lineMax;
+        float maxValue = Utils.getMax(values);
+        lineMax = getLineMax(maxValue);
+
         mLineChart.setBorderSpacing(Tools.fromDpToPx(4))
                 .setGrid(LineChartView.GridType.HORIZONTAL, mLineGridPaint)
                 .setXAxis(false)
                 .setXLabels(XController.LabelPosition.OUTSIDE)
                 .setYAxis(false)
                 .setYLabels(YController.LabelPosition.OUTSIDE)
-                .setAxisBorderValues(LINE_MIN, LINE_MAX, STEP)
+                .setAxisBorderValues(LINE_MIN, lineMax, STEP)
                 .setLabelsFormat(new DecimalFormat("##' gel'"))
                 .show(getAnimation(true))
         //.show()
@@ -147,7 +152,6 @@ public class ChartFragment extends Fragment {
     private static int[] mCurrOverlapOrder;
     private static float mOldOverlapFactor;
     private static int[] mOldOverlapOrder;
-
     /**
      * Ease
      */
@@ -163,7 +167,6 @@ public class ChartFragment extends Fragment {
     /**
      * Alpha
      */
-
     private static int mCurrAlpha;
     private static int mOldAlpha;
 
@@ -182,14 +185,27 @@ public class ChartFragment extends Fragment {
                     .setStartPoint(mOldStartX, mOldStartY);
     }
 
+    private int getLineMax(float realMax) {
+        int max = 0;
+
+        if (realMax % STEP == 0) {
+            int dTimes = (int) realMax / STEP;
+            max = STEP * (dTimes);
+        } else {
+            int dTimes = (int) realMax / STEP;
+            max = STEP * (dTimes) + STEP;
+        }
+
+        return max;
+    }
+
     private final OnEntryClickListener lineEntryListener = new OnEntryClickListener() {
         @Override
         public void onClick(int setIndex, int entryIndex, Rect rect) {
 
             if (mLineTooltip == null) {
                 showLineTooltip(setIndex, entryIndex, rect);
-            }
-            else {
+            } else {
                 dismissLineTooltip(setIndex, entryIndex, rect);
             }
         }

@@ -17,12 +17,11 @@ import com.ikakus.VTB_Parser.Classes.Trans;
 import com.ikakus.VTB_Parser.Fragments.ChartFragment;
 import com.ikakus.VTB_Parser.Fragments.HistoryFragment;
 import com.ikakus.VTB_Parser.Fragments.NoTransactionsFragment;
+import com.splunk.mint.Mint;
 
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
-//    public static String VTB_SENDER = "+1";
 
     private MyPagerAdapter mAdapter;
     private ViewPager mViewPager;
@@ -30,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     public static double mLastAmount;
     public static boolean mIsIncome = false;
     public static List<Trans> mTransactions;
-    Orientation orient = Orientation.Portrait;
+    private Orientation orientation = Orientation.Portrait;
 
     /**
      * Called when the activity is first created.
@@ -39,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
+
+        Mint.initAndStartSession(this, "c75e842f");
 
         startService(new Intent(this, SmsReaderService.class));
         mViewPager = (ViewPager) findViewById(R.id.pager);
@@ -66,14 +67,14 @@ public class MainActivity extends AppCompatActivity {
         if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
 //            Toast.makeText(this, "landscape", Toast.LENGTH_SHORT).show();
 
-            orient = Orientation.Landscape;
+            orientation = Orientation.Landscape;
             mAdapter = new MyPagerAdapter(this.getSupportFragmentManager());
             mViewPager.setAdapter(mAdapter);
             mAdapter.notifyDataSetChanged();
 
         } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
 //            Toast.makeText(this, "portrait", Toast.LENGTH_SHORT).show();
-            orient = Orientation.Portrait;
+            orientation = Orientation.Portrait;
             mAdapter = new MyPagerAdapter(this.getSupportFragmentManager());
             mViewPager.setAdapter(mAdapter);
             mAdapter.notifyDataSetChanged();
@@ -113,12 +114,12 @@ public class MainActivity extends AppCompatActivity {
 
             if (mTransactions.size() > 0) {
 
-                if (orient == Orientation.Landscape) {
+                if (orientation == Orientation.Landscape) {
                     if (position == 0) {
                         fragment = new ChartFragment();
                     }
                 }
-                if (orient == Orientation.Portrait) {
+                if (orientation == Orientation.Portrait) {
                     if (position == 0) {
                         fragment = new HistoryFragment();
                     }
@@ -134,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public int getCount() {
-            if (orient == Orientation.Landscape) {
+            if (orientation == Orientation.Landscape) {
                 return 1;
             } else {
                 return 1;
