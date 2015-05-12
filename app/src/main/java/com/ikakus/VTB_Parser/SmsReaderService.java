@@ -37,7 +37,7 @@ public class SmsReaderService extends Service implements SMSReceiverListener {
         List<SMSMessage> allSmsFromBase = SMSMessage.listAll(SMSMessage.class);
         SMSMessage smsMessage = VTBSmsParser.parseStrToSmsMessage(result);
         if (!allSmsFromBase.contains(smsMessage)) {
-            ParsedSmsManager.addSmsToBase(smsMessage);
+            ParsedSmsManager.addSmsTransToBase(smsMessage);
             allSmsFromBase.add(smsMessage);
         }
 

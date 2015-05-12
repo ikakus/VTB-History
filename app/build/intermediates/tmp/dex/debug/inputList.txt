@@ -1,8 +1,8 @@
-C:\Users\i.dadiani\Desktop\VTB-History\app\build\intermediates\classes\debug
-C:\Users\i.dadiani\Desktop\VTB-History\app\build\intermediates\pre-dexed\debug\support-annotations-22.1.1-fe52b3d58411d655ad7b2fd4292fff145dbd0f16.jar
-C:\Users\i.dadiani\Desktop\VTB-History\app\build\intermediates\pre-dexed\debug\classes-2a8e941f16d9d324d5f25b7129c09c4901b6a0d1.jar
-C:\Users\i.dadiani\Desktop\VTB-History\app\build\intermediates\pre-dexed\debug\classes-edeef68216628c5906b74e63d2992a1cfdd19ae8.jar
-C:\Users\i.dadiani\Desktop\VTB-History\app\build\intermediates\pre-dexed\debug\classes-c3355e971bf3a5cb5f1046375ebdc491ae875c12.jar
-C:\Users\i.dadiani\Desktop\VTB-History\app\build\intermediates\pre-dexed\debug\internal_impl-22.1.1-2327f38d46328b6b9469df558f992a1d166fc6ef.jar
-C:\Users\i.dadiani\Desktop\VTB-History\app\build\intermediates\pre-dexed\debug\classes-93b3618bf10258bdf136fd00c6fa72011f4f8dea.jar
-C:\Users\i.dadiani\Desktop\VTB-History\app\build\intermediates\pre-dexed\debug\classes-399c73bad0f3f5364fc2b859f25062abdf329fb8.jar
+C:\Users\404\Documents\GitHub\VTB-History\app\build\intermediates\classes\debug
+C:\Users\404\Documents\GitHub\VTB-History\app\build\intermediates\pre-dexed\debug\support-annotations-22.1.1-e9b1cf98aa7d208719efc5830ed661a64192dca6.jar
+C:\Users\404\Documents\GitHub\VTB-History\app\build\intermediates\pre-dexed\debug\classes-c7e1c7067df41e02ca591fd234cf2dd411bf64e4.jar
+C:\Users\404\Documents\GitHub\VTB-History\app\build\intermediates\pre-dexed\debug\classes-8e5ccade1486c2bcfc66ce1a8aa3cb1e39b4b8b6.jar
+C:\Users\404\Documents\GitHub\VTB-History\app\build\intermediates\pre-dexed\debug\classes-9c4d125412679dd231a27973bd88f7dae6a887f2.jar
+C:\Users\404\Documents\GitHub\VTB-History\app\build\intermediates\pre-dexed\debug\internal_impl-22.1.1-717ab815a9d1cb93fb3fbed408a49fcfa8efbbca.jar
+C:\Users\404\Documents\GitHub\VTB-History\app\build\intermediates\pre-dexed\debug\classes-cadf494b22d966bbfa31923c7ede6da9a0f192ad.jar
+C:\Users\404\Documents\GitHub\VTB-History\app\build\intermediates\pre-dexed\debug\classes-6bed1b60cf2e11278ec82dff284ebaab11d487f1.jar

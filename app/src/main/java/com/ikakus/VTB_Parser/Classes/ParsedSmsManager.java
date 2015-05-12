@@ -14,8 +14,12 @@ public class ParsedSmsManager {
 
     public static String VTB_SENDER = "VTB Bank";
 
-    public static void addSmsToBase(SMSMessage smsMessage) {
+    public static void addSmsTransToBase(SMSMessage smsMessage) {
         smsMessage.save();
+        Trans transaction = VTBSmsParser.parseSmsToTrans(smsMessage);
+        if (transaction != null) {
+            attTransToBase(transaction);
+        }
     }
 
     public static void updateSmsBase(Activity activity) {
@@ -27,11 +31,8 @@ public class ParsedSmsManager {
         for (SMSMessage smsMessage : (List<SMSMessage>) Utils.myReverse((ArrayList) allSms)) {
             if (smsMessage.getSender().equals(VTB_SENDER)) {
                 if (!allSmsFromBase.contains(smsMessage)) {
-                    ParsedSmsManager.addSmsToBase(smsMessage);
-                    Trans transaction = VTBSmsParser.parseSmsToTrans(smsMessage);
-                    if (transaction != null) {
-                        attTransToBase(transaction);
-                    }
+                    ParsedSmsManager.addSmsTransToBase(smsMessage);
+                    
                     allSmsFromBase.add(smsMessage);
                 }
             }

@@ -11,8 +11,6 @@ import com.ikakus.VTB_Parser.Classes.Trans;
 import com.ikakus.VTB_Parser.Classes.Utils;
 import com.ikakus.VTB_Parser.R;
 
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -30,7 +28,7 @@ public class TransactionsAdapter extends ArrayAdapter<Trans> implements StickyLi
     private ArrayList<Trans> items;
     private Context context;
     private LayoutInflater inflater;
-    private HashMap<String, Double> stringHashMap;
+    private HashMap<String, Double> monthlyOutcomeHashMap;
 
     public TransactionsAdapter(Context context, int resource, ArrayList<Trans> items) {
         super(context, resource, items);
@@ -38,18 +36,11 @@ public class TransactionsAdapter extends ArrayAdapter<Trans> implements StickyLi
         this.items = Utils.myReverse(items);
         this.context = context;
         this.inflater = LayoutInflater.from(context);
-        stringHashMap = new HashMap<>();
+        monthlyOutcomeHashMap = new HashMap<>();
         calculateOutcomeSumForMonth(items);
 
     }
 
-    private static double round(double value, int places) {
-        if (places < 0) throw new IllegalArgumentException();
-
-        BigDecimal bd = new BigDecimal(value);
-        bd = bd.setScale(places, RoundingMode.HALF_UP);
-        return bd.doubleValue();
-    }
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -107,7 +98,7 @@ public class TransactionsAdapter extends ArrayAdapter<Trans> implements StickyLi
 
         double OutSum = getOutcomeSumForMonth(position);
         double InSum = calculateIncomeSumForMonth(position, items);
-        double totalSum = round(InSum - OutSum, 2);
+        double totalSum = Utils.round(InSum - OutSum, 2);
 
         textViewIn.setText("+" + InSum);
         textViewOut.setText("-" + OutSum);
@@ -125,27 +116,33 @@ public class TransactionsAdapter extends ArrayAdapter<Trans> implements StickyLi
 
     private void calculateOutcomeSumForMonth(ArrayList<Trans> transactions) {
         double sum = 0;
+
         for (Trans trans : transactions) {
-            String key = (trans.getDateTime().getMonth() + trans.getDateTime().getYear()) + "";
+            SimpleDateFormat month_date = new SimpleDateFormat("MMyy");
+            String key = month_date.format(trans.getDateTime());
+            monthlyOutcomeHashMap.put(key, sum);
+        }
 
-            if (!stringHashMap.containsKey(key)) {
-                sum = 0;
-                sum += trans.getAmount();
-                stringHashMap.put(key, sum);
-            }else{
+        for (Trans trans : transactions) {
+            SimpleDateFormat month_date = new SimpleDateFormat("MMyy");
+            String key = month_date.format(trans.getDateTime());
 
+            if(!trans.isIncome()) {
+                sum = monthlyOutcomeHashMap.get(key);
                 sum += trans.getAmount();
-                stringHashMap.put(key, sum);
+                monthlyOutcomeHashMap.put(key, sum);
             }
+
         }
 
     }
 
     private double getOutcomeSumForMonth(int position) {
         Date dateCurr = items.get(position).getDateTime();
-        String key = (dateCurr.getMonth() + dateCurr.getYear()) + "";
-        double sum = stringHashMap.get(key);
-        return round(sum, 2);
+        SimpleDateFormat month_date = new SimpleDateFormat("MMyy");
+        String key = month_date.format(dateCurr);
+        double sum = monthlyOutcomeHashMap.get(key);
+        return Utils.round(sum, 2);
     }
 
     private double calculateIncomeSumForMonth(int position, ArrayList<Trans> items) {
@@ -175,7 +172,7 @@ public class TransactionsAdapter extends ArrayAdapter<Trans> implements StickyLi
                 break;
             }
         }
-        return round(sum, 2);
+        return Utils.round(sum, 2);
     }
 
     @Override
