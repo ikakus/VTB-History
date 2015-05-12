@@ -1847,9 +1847,10 @@ containing a value of this type.
         public static final int abc_toolbar_collapse_description=0x7f0a0010;
         public static final int app_name=0x7f0a0011;
         public static final int balance=0x7f0a0012;
-        public static final int last_tans_amount=0x7f0a0013;
-        public static final int no_transactions_found=0x7f0a0014;
-        public static final int service_name=0x7f0a0015;
+        public static final int chart_title=0x7f0a0013;
+        public static final int last_tans_amount=0x7f0a0014;
+        public static final int no_transactions_found=0x7f0a0015;
+        public static final int service_name=0x7f0a0016;
     }
     public static final class style {
         public static final int AlertDialog_AppCompat=0x7f0b0000;
