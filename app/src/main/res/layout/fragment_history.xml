@@ -32,14 +32,12 @@
                 android:layout_gravity="center_vertical"
                 android:text="500.00"
                 android:textColor="@color/white"
-                android:textSize="50sp" />
+                android:textSize="32sp" />
 
             <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="16dp"
+                android:layout_height="16dp"
                 android:layout_gravity="center_vertical"
-                android:scaleX="0.5"
-                android:scaleY="0.5"
                 android:src="@drawable/gel_white" />
         </LinearLayout>
 
@@ -51,22 +49,30 @@
             android:textColor="@color/white"
             android:textSize="16sp" />
 
-        <TextView
-            android:id="@+id/amount"
+        <LinearLayout
+            android:id="@+id/layout_last_trans"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_margin="@dimen/abc_action_bar_subtitle_top_margin_material"
-            android:text="-200.00"
-            android:textColor="@color/orange"
-            android:textSize="30sp" />
+            android:orientation="horizontal">
 
+            <TextView
+                android:id="@+id/amount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_margin="@dimen/abc_action_bar_subtitle_top_margin_material"
+                android:text="-200.00"
+                android:textColor="@color/orange"
+                android:textSize="20sp" />
 
-        <!--<View-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="2dp"-->
-            <!--android:layout_margin="5dp"-->
-            <!--android:background="@color/white" />-->
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/gel_white" />
+        </LinearLayout>
+
 
     </LinearLayout>
 
@@ -78,14 +84,13 @@
             android:id="@+id/lisview_history"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/greenish"/>
+            android:background="@color/greenish" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="5dp"
             android:background="@drawable/toolbar_drop_shadow" />
     </FrameLayout>
-
 
 
 </LinearLayout>

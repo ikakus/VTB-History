@@ -3,9 +3,8 @@
 
     <string name="app_name">VTB Parser</string>
     <string name="service_name">VTBSmsService</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="no_transactions_found">Sorry no SMS with VTB transactions were found T-T</string>
     <string name="balance">Balance:</string>
-    <string name="last_tans_amount">Last transaction amount:</string>
+    <string name="last_tans_amount">Last transaction:</string>
 
 </resources>

@@ -1,7 +1,6 @@
 package com.ikakus.VTB_Parser.Fragments;
 
 import android.animation.TimeInterpolator;
-import android.annotation.SuppressLint;
 import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.Rect;
@@ -13,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
-import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -34,22 +32,21 @@ import com.ikakus.VTB_Parser.R;
 import java.text.DecimalFormat;
 import java.util.List;
 
-
 public class ChartFragment extends Fragment {
 
-    private static final String ARG_BALANCE = "balance";
-
     private static final int STEP = 500;
-    View mRootView;
+    private View mRootView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         mRootView = inflater.inflate(R.layout.fragment_chart, container, false);
 
-//        initLineChart(mRootView);
-//        setUnderChart(mRootView);
-//        updateLineChart();
+        try {
+            Thread.sleep(100);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         mCurrOverlapFactor = 1;
         mCurrEasing = new QuintEaseOut();
@@ -62,22 +59,35 @@ public class ChartFragment extends Fragment {
         mOldStartX = -1;
         mOldStartY = 0;
         mOldAlpha = -1;
-        initLineChart();
-        updateLineChart();
+
+        mRootView.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+            @Override
+            public void onLayoutChange(View v, int left, int top, int right, int bottom, int oldLeft, int oldTop, int oldRight,
+                                       int oldBottom) {
+                // its possible that the layout is not complete in which case
+                // we will get all zero values for the positions, so ignore the event
+                if (left == 0 && top == 0 && right == 0 && bottom == 0) {
+                    return;
+                }
+
+                initLineChart();
+                updateLineChart();
+
+                // Do what you need to do with the height/width since they are now set
+            }
+        });
 
         return mRootView;
     }
 
     private final static int LINE_MAX = 2500;
     private final static int LINE_MIN = 0;
-    private static LineChartView mLineChart;
+    private LineChartView mLineChart;
     private Paint mLineGridPaint;
     private TextView mLineTooltip;
 
-
     private final TimeInterpolator enterInterpolator = new DecelerateInterpolator(1.5f);
     private final TimeInterpolator exitInterpolator = new AccelerateInterpolator();
-
 
     private void initLineChart() {
 
@@ -101,7 +111,7 @@ public class ChartFragment extends Fragment {
         TextView lastDate = (TextView) mRootView.findViewById(R.id.last_date);
 
         firstDate.setText(MainActivity.mTransactions.get(0).getDateTime().toString());
-        lastDate.setText(MainActivity.mTransactions.get(MainActivity.mTransactions.size()-1).getDateTime().toString());
+        lastDate.setText(MainActivity.mTransactions.get(MainActivity.mTransactions.size() - 1).getDateTime().toString());
 
         LineSet dataSet = new LineSet();
         float[] values = getValues(MainActivity.mTransactions);
@@ -129,51 +139,33 @@ public class ChartFragment extends Fragment {
         mLineChart.animateSet(0, new DashAnimation());
     }
 
-
-    /**
-     * Play
-     */
-    private static ImageButton mPlayBtn;
-
-
     /**
      * Order
      */
-    private static ImageButton mOrderBtn;
-    private final static int[] beginOrder = {0, 1, 2, 3, 4, 5, 6};
-    private final static int[] middleOrder = {3, 2, 4, 1, 5, 0, 6};
-    private final static int[] endOrder = {6, 5, 4, 3, 2, 1, 0};
+
     private static float mCurrOverlapFactor;
     private static int[] mCurrOverlapOrder;
     private static float mOldOverlapFactor;
     private static int[] mOldOverlapOrder;
 
-
     /**
      * Ease
      */
-    private static ImageButton mEaseBtn;
     private static BaseEasingMethod mCurrEasing;
     private static BaseEasingMethod mOldEasing;
-
-
     /**
      * Enter
      */
-    private static ImageButton mEnterBtn;
     private static float mCurrStartX;
     private static float mCurrStartY;
     private static float mOldStartX;
     private static float mOldStartY;
-
-
     /**
      * Alpha
      */
-    private static ImageButton mAlphaBtn;
+
     private static int mCurrAlpha;
     private static int mOldAlpha;
-
 
     private Animation getAnimation(boolean newAnim) {
         if (newAnim)
@@ -190,15 +182,16 @@ public class ChartFragment extends Fragment {
                     .setStartPoint(mOldStartX, mOldStartY);
     }
 
-
     private final OnEntryClickListener lineEntryListener = new OnEntryClickListener() {
         @Override
         public void onClick(int setIndex, int entryIndex, Rect rect) {
 
-            if (mLineTooltip == null)
+            if (mLineTooltip == null) {
                 showLineTooltip(setIndex, entryIndex, rect);
-            else
+            }
+            else {
                 dismissLineTooltip(setIndex, entryIndex, rect);
+            }
         }
     };
 
@@ -210,7 +203,6 @@ public class ChartFragment extends Fragment {
         }
     };
 
-    @SuppressLint("NewApi")
     private void showLineTooltip(int setIndex, int entryIndex, Rect rect) {
 
         mLineTooltip = (TextView) getActivity().getLayoutInflater().inflate(R.layout.circular_tooltip, null);
@@ -239,7 +231,6 @@ public class ChartFragment extends Fragment {
         mLineChart.showTooltip(mLineTooltip);
     }
 
-    @SuppressLint("NewApi")
     private void dismissLineTooltip(final int setIndex, final int entryIndex, final Rect rect) {
 
         if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
@@ -287,5 +278,4 @@ public class ChartFragment extends Fragment {
 
         return label;
     }
-
 }
