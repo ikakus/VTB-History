@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">VTB Balance</string>
-    <string name="service_name">VTBSmsService</string>
+    <string name="app_name">Card Holder</string>
+    <string name="service_name">CardHolderSmsService</string>
     <string name="no_transactions_found">Sorry no SMS with VTB transactions were found T-T</string>
     <string name="balance">Balance:</string>
     <string name="last_tans_amount">Last transaction:</string>
