@@ -15,9 +15,10 @@ public class ParsedSmsManager {
     public static String VTB_SENDER = "VTB Bank";
 
     public static void addSmsTransToBase(SMSMessage smsMessage) {
-        smsMessage.save();
+
         Trans transaction = VTBSmsParser.parseSmsToTrans(smsMessage);
         if (transaction != null) {
+            smsMessage.save();
             attTransToBase(transaction);
         }
     }

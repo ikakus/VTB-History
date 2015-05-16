@@ -48,7 +48,7 @@ public class HistoryFragment extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Trans transaction = MainActivity.mTransactions.get((MainActivity.mTransactions.size() - 1) - position);
-                Toast.makeText(getActivity(), transaction.getSmsBody(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(getActivity(), transaction.getSmsBody(), Toast.LENGTH_LONG).show();
             }
         });
 
