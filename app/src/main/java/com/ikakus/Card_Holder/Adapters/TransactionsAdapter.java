@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import com.ikakus.Card_Holder.Classes.Trans;
 import com.ikakus.Card_Holder.Classes.Utils;
+import com.ikakus.Card_Holder.Enum.Currency;
 import com.ikakus.Card_Holder.R;
 
 import java.text.DateFormat;
@@ -25,65 +26,45 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
  */
 public class TransactionsAdapter extends ArrayAdapter<Trans> implements StickyListHeadersAdapter {
 
-    private ArrayList<Trans> items;
-    private Context context;
-    private LayoutInflater inflater;
-    private HashMap<String, Double> monthlyOutcomeHashMap;
+    private ArrayList<Trans> mItems;
+    private Context mContext;
+    private LayoutInflater mInflater;
+    private HashMap<String, Double> mMonthlyOutcomeHashMap;
 
     public TransactionsAdapter(Context context, int resource, ArrayList<Trans> items) {
         super(context, resource, items);
 
-        this.items = Utils.myReverse(items);
-        this.context = context;
-        this.inflater = LayoutInflater.from(context);
-        monthlyOutcomeHashMap = new HashMap<>();
-        calculateOutcomeSumForMonth(items);
-
+        this.mItems = Utils.myReverse(items);
+        this.mContext = context;
+        this.mInflater = LayoutInflater.from(context);
+        this.mMonthlyOutcomeHashMap = calculateOutcomeSumForMonth(items);
     }
-
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(R.layout.history_item, parent, false);
         TextView textViewAmount = (TextView) rowView.findViewById(R.id.amount);
         TextView textViewBalance = (TextView) rowView.findViewById(R.id.balance);
         TextView textViewDate = (TextView) rowView.findViewById(R.id.date);
 
-//        setHeaders(position, rowView);
-
-        double amount = items.get(position).getAmount();
-        if (items.get(position).isIncome()) {
-            textViewAmount.setTextColor(context.getResources().getColor(R.color.green));
-            textViewAmount.setText("+" + Double.toString(amount));
+        Trans transaction = mItems.get(position);
+        double amount = transaction.getAmount();
+        if (transaction.isIncome()) {
+            textViewAmount.setTextColor(mContext.getResources().getColor(R.color.green));
+            textViewAmount.setText("+" + Double.toString(amount) + " " + transaction.getCurrency().name());
         } else {
-            textViewAmount.setText("-" + Double.toString(amount));
+            textViewAmount.setText("-" + Double.toString(amount) + " " + transaction.getCurrency().name());
         }
 
-        double balance = items.get(position).getBalance();
+        double balance = transaction.getBalance();
         textViewBalance.setText(Double.toString(balance));
         DateFormat timeInstance = DateFormat.getDateTimeInstance(DateFormat.SHORT, DateFormat.MEDIUM, Locale.ROOT);
-        Date date = items.get(position).getDateTime();
+        Date date = transaction.getDateTime();
         String formattedDate = timeInstance.format(date);
         textViewDate.setText(formattedDate);
 
         return rowView;
-    }
-
-    private void setHeaders(int position, View rowView) {
-        if (position > 0) {
-            Date datePrev = items.get(position - 1).getDateTime();
-            Date dateCurr = items.get(position).getDateTime();
-
-            if (dateCurr.getMonth() != datePrev.getMonth()) {
-                setMonthData(position, rowView, dateCurr);
-            }
-        }
-
-        if (position == 0) {
-            Date dateCurr = items.get(position).getDateTime();
-            setMonthData(position, rowView, dateCurr);
-        }
     }
 
     private void setMonthData(int position, final View rowView, Date dateCurr) {
@@ -96,52 +77,67 @@ public class TransactionsAdapter extends ArrayAdapter<Trans> implements StickyLi
         SimpleDateFormat month_date = new SimpleDateFormat("MMMMMMMMM");
         String month_name = month_date.format(dateCurr);
 
-        double OutSum = getOutcomeSumForMonth(position);
-        double InSum = calculateIncomeSumForMonth(position, items);
-        double totalSum = Utils.round(InSum - OutSum, 2);
+        double OutSumGel = getGELOutcomeSumForMonth(position);
+        double OutSumUSD = getUSDOutcomeSumForMonth(position);
+        double InSum = calculateIncomeSumForMonth(position, mItems);
+        double totalSum = Utils.round(InSum - OutSumGel, 2);
 
         textViewIn.setText("+" + InSum);
-        textViewOut.setText("-" + OutSum);
+        textViewOut.setText("-" + OutSumGel);
         textViewSumTotal.setText("=" + totalSum);
-
-        if (OutSum > InSum) {
-            textViewSumTotal.setTextColor(context.getResources().getColor(R.color.red));
-        } else {
-            textViewSumTotal.setTextColor(context.getResources().getColor(R.color.green));
-        }
+//
+//        if (OutSumGel > InSum) {
+//            textViewSumTotal.setTextColor(mContext.getResources().getColor(R.color.red));
+//        } else {
+//            textViewSumTotal.setTextColor(mContext.getResources().getColor(R.color.green));
+//        }
 
         textViewMonth.setText(month_name);
-        textViewSum.setText(" -" + OutSum);
+        textViewSum.setText("-" + OutSumUSD + " USD " + " -" + OutSumGel);
     }
 
-    private void calculateOutcomeSumForMonth(ArrayList<Trans> transactions) {
+    private HashMap<String, Double> calculateOutcomeSumForMonth(ArrayList<Trans> transactions) {
+        HashMap<String, Double> monthlyOutcomeHashMap = new HashMap<>();
         double sum = 0;
 
         for (Trans trans : transactions) {
             SimpleDateFormat month_date = new SimpleDateFormat("MMyy");
-            String key = month_date.format(trans.getDateTime());
+            String key = month_date.format(trans.getDateTime()) + trans.getCurrency().name();
             monthlyOutcomeHashMap.put(key, sum);
         }
 
         for (Trans trans : transactions) {
             SimpleDateFormat month_date = new SimpleDateFormat("MMyy");
-            String key = month_date.format(trans.getDateTime());
+            String key = month_date.format(trans.getDateTime()) + trans.getCurrency().name();
 
-            if(!trans.isIncome()) {
+            if (!trans.isIncome()) {
                 sum = monthlyOutcomeHashMap.get(key);
                 sum += trans.getAmount();
                 monthlyOutcomeHashMap.put(key, sum);
             }
 
         }
-
+        return monthlyOutcomeHashMap;
     }
 
-    private double getOutcomeSumForMonth(int position) {
-        Date dateCurr = items.get(position).getDateTime();
+    private double getGELOutcomeSumForMonth(int position) {
+        Date dateCurr = mItems.get(position).getDateTime();
         SimpleDateFormat month_date = new SimpleDateFormat("MMyy");
-        String key = month_date.format(dateCurr);
-        double sum = monthlyOutcomeHashMap.get(key);
+        String key = month_date.format(dateCurr) + Currency.GEL.name();
+        double sum = mMonthlyOutcomeHashMap.get(key);
+        return Utils.round(sum, 2);
+    }
+
+    private double getUSDOutcomeSumForMonth(int position) {
+        Date dateCurr = mItems.get(position).getDateTime();
+        SimpleDateFormat month_date = new SimpleDateFormat("MMyy");
+        String key = month_date.format(dateCurr) + Currency.USD.name();
+        double sum =0;
+        try {
+             sum = mMonthlyOutcomeHashMap.get(key);
+        }catch (NullPointerException ex){
+
+        }
         return Utils.round(sum, 2);
     }
 
@@ -177,8 +173,8 @@ public class TransactionsAdapter extends ArrayAdapter<Trans> implements StickyLi
 
     @Override
     public View getHeaderView(int position, View convertView, ViewGroup parent) {
-        Date dateCurr = items.get(position).getDateTime();
-        convertView = inflater.inflate(R.layout.header, parent, false);
+        Date dateCurr = mItems.get(position).getDateTime();
+        convertView = mInflater.inflate(R.layout.header, parent, false);
 
         setMonthData(position, convertView, dateCurr);
         return convertView;
@@ -187,7 +183,7 @@ public class TransactionsAdapter extends ArrayAdapter<Trans> implements StickyLi
     @Override
     public long getHeaderId(int position) {
         SimpleDateFormat month_date = new SimpleDateFormat("MMMMMMMMM");
-        Date dateCurr = items.get(position).getDateTime();
+        Date dateCurr = mItems.get(position).getDateTime();
         String month_name = month_date.format(dateCurr);
 
         return month_name.charAt(0);

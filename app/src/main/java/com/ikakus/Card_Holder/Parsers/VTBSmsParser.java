@@ -3,6 +3,7 @@ package com.ikakus.Card_Holder.Parsers;
 import com.ikakus.Card_Holder.Classes.ParsedSmsManager;
 import com.ikakus.Card_Holder.Classes.SMSMessage;
 import com.ikakus.Card_Holder.Classes.Trans;
+import com.ikakus.Card_Holder.Enum.Currency;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -55,7 +56,7 @@ public class VTBSmsParser {
             double balance = getBalance(body);
             String place = getPlace(body);
             if (balance > 0 && amount > 0 && !place.equals("")) {
-                transaction = new Trans(date, place, amount, balance, smsMessage.getBody());
+                transaction = new Trans(date, place, amount, balance, smsMessage.getBody(), getCurrency(body));
                 mLastBalance = balance;
             } else {
                 return null;
@@ -65,7 +66,7 @@ public class VTBSmsParser {
             String body = smsMessage.getBody();
             double amount = getIncomeAmount(body);
             double balance = round(mLastBalance + amount, 2);
-            transaction = new Trans(smsMessage.getDate(), "", amount, balance, smsMessage.getBody());
+            transaction = new Trans(smsMessage.getDate(), "", amount, balance, smsMessage.getBody(), getCurrency(body));
             transaction.setIsIncome(true);
         }
         return transaction;
@@ -125,13 +126,29 @@ public class VTBSmsParser {
             startString = "TRANSACTION 2014-12-06 12:16:55 VISA ELECTRON ";
         }
 
-        if(body.contains(" USD ")) {
-            endString = " USD ";
-        }else{
-            endString = " GEL ";
+        Currency currency = getCurrency(body);
+
+        switch (currency) {
+            case GEL:
+                endString = " GEL ";
+                break;
+            case USD:
+                endString = " USD ";
+                break;
         }
+
         return getDouble(body, startString, endString);
 
+    }
+
+    private static Currency getCurrency(String body) {
+        if (body.contains(" USD ")) {
+            return Currency.USD;
+        } else if (body.contains(" GEL ")) {
+            return Currency.GEL;
+        } else {
+            return Currency.GEL;
+        }
     }
 
     private static Date getDate(String body) {
@@ -148,7 +165,6 @@ public class VTBSmsParser {
                 // TODO Auto-generated catch block
                 e.printStackTrace();
             }
-
         }
 
         return dateTime;
