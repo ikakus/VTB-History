@@ -85,12 +85,6 @@ public class TransactionsAdapter extends ArrayAdapter<Trans> implements StickyLi
         textViewIn.setText("+" + InSum);
         textViewOut.setText("-" + OutSumGel);
         textViewSumTotal.setText("=" + totalSum);
-//
-//        if (OutSumGel > InSum) {
-//            textViewSumTotal.setTextColor(mContext.getResources().getColor(R.color.red));
-//        } else {
-//            textViewSumTotal.setTextColor(mContext.getResources().getColor(R.color.green));
-//        }
 
         textViewMonth.setText(month_name);
         textViewSum.setText("-" + OutSumUSD + " USD " + " -" + OutSumGel);
@@ -132,10 +126,10 @@ public class TransactionsAdapter extends ArrayAdapter<Trans> implements StickyLi
         Date dateCurr = mItems.get(position).getDateTime();
         SimpleDateFormat month_date = new SimpleDateFormat("MMyy");
         String key = month_date.format(dateCurr) + Currency.USD.name();
-        double sum =0;
+        double sum = 0;
         try {
-             sum = mMonthlyOutcomeHashMap.get(key);
-        }catch (NullPointerException ex){
+            sum = mMonthlyOutcomeHashMap.get(key);
+        } catch (NullPointerException ignored) {
 
         }
         return Utils.round(sum, 2);
@@ -186,6 +180,7 @@ public class TransactionsAdapter extends ArrayAdapter<Trans> implements StickyLi
         Date dateCurr = mItems.get(position).getDateTime();
         String month_name = month_date.format(dateCurr);
 
-        return month_name.charAt(0);
+
+        return month_name.charAt(0) + month_name.charAt(1) + month_name.charAt(2);
     }
 }
