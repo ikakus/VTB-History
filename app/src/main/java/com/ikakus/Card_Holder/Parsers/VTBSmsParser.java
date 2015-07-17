@@ -68,6 +68,19 @@ public class VTBSmsParser {
             double balance = round(mLastBalance + amount, 2);
             transaction = new Trans(smsMessage.getDate(), "", amount, balance, smsMessage.getBody(), getCurrency(body));
             transaction.setIsIncome(true);
+        } else if (smsMessage.getBody().contains("ganaghdeba")) {
+            String body = smsMessage.getBody();
+            //Bankomatshi ganaghdeba, baratit:VISA ELECTRON,500.00GEL/ATM VTB (Gldani BR)>Tbilisi, GE,2015-07-15 19:51:48, balansi:1828.86GEL
+            Date date = getDateNewFormat(body);
+            double amount = getOutcomeAmountNew(body);
+            double balance = getBalanceNew(body);
+            String place = getPlace(body);
+            if (balance > 0 && amount > 0 ) {
+                transaction = new Trans(date, place, amount, balance, smsMessage.getBody(), getCurrency(body));
+                mLastBalance = balance;
+            } else {
+                return null;
+            }
         }
         return transaction;
     }
@@ -90,29 +103,73 @@ public class VTBSmsParser {
         String startString = "tkven chagericxat :";
         String endString = "GEL barati";
 
-        return getDouble(body, startString, endString);
+        int indexStart = body.indexOf(startString);
+        int indexEnd = body.indexOf(endString);
+
+        return getDouble(body, indexStart, indexEnd,startString.length());
     }
 
     private static double getBalance(String body) {
         String startString = "Balance=";
         String endString = "GEL. THANK YOU";
 
-        return getDouble(body, startString, endString);
+        int indexStart = body.indexOf(startString);
+        int indexEnd = body.indexOf(endString);
+
+        return getDouble(body, indexStart, indexEnd, startString.length());
     }
 
-    private static double getDouble(String body, String startString, String endString) {
+    private static double getBalanceNew(String body) {
+        String startString = "balansi:";
+        String endString = "GEL";
+
+        int indexStart = body.indexOf(startString);
+        int indexEnd = body.lastIndexOf(endString);
+
+        return getDouble(body, indexStart, indexEnd, startString.length());
+    }
+
+    private static double getDouble(String body, int startIndex, int endIndex, int len) {
         double balance = -1;
         try {
-            int indexStart = body.indexOf(startString);
-            int indexEnd = body.indexOf(endString);
 
-            String sBalance = body.substring(indexStart + startString.length(), indexEnd);
+            String sBalance = body.substring(startIndex + len, endIndex);
             balance = Double.parseDouble(sBalance);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         return balance;
+    }
+
+    private static double getOutcomeAmountNew(String body) {
+        String startString = "";
+        String endString = "";
+        if (body.contains("MAESTRO")) {
+            startString = "MAESTRO ";
+        } else if (body.contains("MASTER")) {
+            startString = "MASTER CARD ";
+        } else if (body.contains("Bankomatshi ganaghdeba")) {
+            startString = ":VISA ELECTRON,";
+        } else {
+            startString = "VISA ELECTRON";
+        }
+
+        Currency currency = getCurrency(body);
+
+        switch (currency) {
+            case GEL:
+                endString = "GEL";
+                break;
+            case USD:
+                endString = "USD";
+                break;
+        }
+
+        int indexStart = body.indexOf(startString);
+        int indexEnd = body.indexOf(endString);
+
+        return getDouble(body, indexStart, indexEnd, startString.length());
     }
 
     private static double getOutcomeAmount(String body) {
@@ -122,6 +179,8 @@ public class VTBSmsParser {
             startString = "TRANSACTION 2014-12-06 12:16:55 MAESTRO ";
         } else if (body.contains("MASTER")) {
             startString = "TRANSACTION 2014-12-06 12:16:55 MASTER CARD ";
+        } else if (body.contains("VTB")) {
+            startString = "Bankomatshi ganaghdeba, baratit:";
         } else {
             startString = "TRANSACTION 2014-12-06 12:16:55 VISA ELECTRON ";
         }
@@ -137,7 +196,11 @@ public class VTBSmsParser {
                 break;
         }
 
-        return getDouble(body, startString, endString);
+
+        int indexStart = body.indexOf(startString);
+        int indexEnd = body.indexOf(endString);
+
+        return getDouble(body, indexStart, indexEnd, startString.length());
 
     }
 
@@ -149,6 +212,27 @@ public class VTBSmsParser {
         } else {
             return Currency.GEL;
         }
+    }
+
+    private static Date getDateNewFormat(String body) {
+        Date dateTime = null;
+        String start = "GE,";
+        String sDateTemplate = "2014-12-06 12:16:55";
+        int StartIndex = body.indexOf(start);
+        int EndIndex = start.length() + sDateTemplate.length();
+        if (body.contains(start) && body.length() > 25) {
+            String date = body.substring(StartIndex + start.length(), StartIndex  + EndIndex);
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            try {
+                dateTime = format.parse(date);
+                System.out.println(dateTime);
+            } catch (ParseException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+
+        return dateTime;
     }
 
     private static Date getDate(String body) {

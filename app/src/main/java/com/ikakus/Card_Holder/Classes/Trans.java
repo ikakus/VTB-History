@@ -42,7 +42,12 @@ public class Trans extends SugarRecord {
     }
 
     public Date getDateTime() {
-        return mDateTime;
+        if(mDateTime==null){
+            return new Date();
+        }else{
+            return mDateTime;
+        }
+
     }
 
     public void setDateTime(Date dateTime) {
