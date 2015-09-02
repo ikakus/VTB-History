@@ -48,6 +48,7 @@ public class VTBSmsParser {
 
         Trans transaction = null;
 
+
         if (smsMessage.getBody().contains("TRANSACTION")) {
             String body = smsMessage.getBody();
             //TRANSACTION 2014-12-06 12:16:55 VISA ELECTRON 10.00 GEL / ATM TBC-38 (Planeta)>Tbilisi, GE.  Balance= 581.87 GEL. THANK YOU
@@ -71,6 +72,21 @@ public class VTBSmsParser {
         } else if (smsMessage.getBody().contains("ganaghdeba")) {
             String body = smsMessage.getBody();
             //Bankomatshi ganaghdeba, baratit:VISA ELECTRON,500.00GEL/ATM VTB (Gldani BR)>Tbilisi, GE,2015-07-15 19:51:48, balansi:1828.86GEL
+            Date date = getDateNewFormat(body);
+            double amount = getOutcomeAmountNew(body);
+            double balance = getBalanceNew(body);
+            String place = getPlace(body);
+            if (balance > 0 && amount > 0) {
+                transaction = new Trans(date, place, amount, balance, smsMessage.getBody(), getCurrency(body));
+                mLastBalance = balance;
+            } else {
+                return null;
+            }
+        } else if (smsMessage.getBody().contains("Gadakhda baratit")) {
+
+//            Gadakhda baratit:VISA ELECTRON,20.00GEL/Burusport (Kavataradze str)>Tbilisi, GE,2015-08-23 14:24:19, balansi:1748.82GEL
+
+            String body = smsMessage.getBody();
             Date date = getDateNewFormat(body);
             double amount = getOutcomeAmountNew(body);
             double balance = getBalanceNew(body);
@@ -106,7 +122,7 @@ public class VTBSmsParser {
         int indexStart = body.indexOf(startString);
         int indexEnd = body.indexOf(endString);
 
-        return getDouble(body, indexStart, indexEnd,startString.length());
+        return getDouble(body, indexStart, indexEnd, startString.length());
     }
 
     private static double getBalance(String body) {
@@ -151,12 +167,13 @@ public class VTBSmsParser {
             startString = "MASTER CARD ";
         } else if (body.contains("Bankomatshi ganaghdeba")) {
             startString = ":VISA ELECTRON,";
+        } else if (body.contains("Gadakhda baratit")) {
+            startString = ":VISA ELECTRON,";
+
         } else {
             startString = "VISA ELECTRON";
         }
-
         Currency currency = getCurrency(body);
-
         switch (currency) {
             case GEL:
                 endString = "GEL";
@@ -165,7 +182,6 @@ public class VTBSmsParser {
                 endString = "USD";
                 break;
         }
-
         int indexStart = body.indexOf(startString);
         int indexEnd = body.indexOf(endString);
 
@@ -219,10 +235,15 @@ public class VTBSmsParser {
         String start = "GE,";
         String sDateTemplate = "2014-12-06 12:16:55";
         int StartIndex = body.indexOf(start);
+        if(StartIndex == -1){
+            String altStart = "GE ,";
+            StartIndex = body.indexOf(altStart);
+        }
         int EndIndex = start.length() + sDateTemplate.length();
-        if (body.contains(start) && body.length() > 25) {
-            String date = body.substring(StartIndex + start.length(), StartIndex  + EndIndex);
+        if ( body.length() > 25) {
+            String date = body.substring(StartIndex + start.length(), StartIndex + EndIndex);
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+            date = date.replace(",","");
             try {
                 dateTime = format.parse(date);
                 System.out.println(dateTime);
