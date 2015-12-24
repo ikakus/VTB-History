@@ -2,15 +2,19 @@ package com.ikakus.Card_Holder.Activities;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.ikakus.Card_Holder.Classes.ParsedSmsManager;
 import com.ikakus.Card_Holder.Classes.Trans;
@@ -26,12 +30,13 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    private MyPagerAdapter mAdapter;
-    private ViewPager mViewPager;
     public static double mBalance;
     public static double mLastAmount;
     public static boolean mIsIncome = false;
     public static List<Trans> mTransactions;
+    private final int REQUEST_CODE_ASK_PERMISSIONS = 123;
+    private MyPagerAdapter mAdapter;
+    private ViewPager mViewPager;
     private Orientation orientation = Orientation.Portrait;
 
     /**
@@ -44,6 +49,15 @@ public class MainActivity extends AppCompatActivity {
 
         Mint.initAndStartSession(this, "c75e842f");
 
+        if (ContextCompat.checkSelfPermission(getBaseContext(), "android.permission.READ_SMS") == PackageManager.PERMISSION_GRANTED) {
+            startMainService();
+        } else {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{"android.permission.READ_SMS"}, REQUEST_CODE_ASK_PERMISSIONS);
+        }
+
+    }
+
+    private void startMainService() {
         startService(new Intent(this, SmsReaderService.class));
         mViewPager = (ViewPager) findViewById(R.id.pager);
         mAdapter = new MyPagerAdapter(this.getSupportFragmentManager());
@@ -59,11 +73,27 @@ public class MainActivity extends AppCompatActivity {
         ParsedSmsManager.updateSmsBase(MainActivity.this);
         mTransactions = Trans.listAll(Trans.class);
         setBalanceOnStart(mTransactions);
-
     }
 
     @Override
-    public void onResume(){
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        switch (requestCode) {
+            case REQUEST_CODE_ASK_PERMISSIONS:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Permission Granted
+                    startMainService();
+                } else {
+                    // Permission Denied
+                    Toast.makeText(MainActivity.this, "READ_SMS Denied", Toast.LENGTH_SHORT).show();
+                }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+    }
+
+    @Override
+    public void onResume() {
         super.onResume();
 
     }
